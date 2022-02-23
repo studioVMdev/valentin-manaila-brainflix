@@ -1,24 +1,19 @@
-
 import "./Comment.scss";
 
-import React from 'react';
+import React from "react";
+import Avatar from "../Avatar/Avatar";
 
-const Comment = () => {
-  return (
-    <div className="comment">
-      <img src="" alt="user-avatar" className="comment__user-abat" />
-      <div className="comment__info">
-        <p className="comment__author">John Doe</p>
-        <p className="comment__date">01/02/03</p>
-      </div>
-      <p className="comment__body">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Impedit
-        ullam odit unde dolor commodi totam laboriosam, ea eaque
-        perferendis qui a consequuntur aspernatur, repellendus optio
-        ipsam numquam! Quae, et ipsa?
-      </p>
-    </div>
-  )
-}
-
-export default Comment
+//todo add likes
+const Comment = ({ commentObj }) => {
+	return (
+		<div className="comment">
+			<Avatar className={"comment__user-avatar"} />
+			<div className="comment__info">
+				<p className="comment__author">{commentObj.name}</p>
+				<p className="comment__date">{commentObj.timestamp}</p>
+			</div>
+			<p className="comment__body">{commentObj.comment}</p>
+		</div>
+	);
+};
+export default Comment;

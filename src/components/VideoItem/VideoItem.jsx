@@ -1,21 +1,19 @@
-
 import "./VideoItem.scss";
-const VideoItem = () => {
-  return (
-    <div className="video-item">
-    <img
-      src=""
-      alt="video thumbnail"
-      className="video-item__thumbnail"
-    />
-    <div className="video-item__info-wrapper">
-      <p className="video-item__title">
-        Lorem, ipsum dolor sit amet consectetur adipisicing.
-      </p>
-      <p className="video-item__author">John Doe</p>
-    </div>
-  </div>
-  )
-}
 
-export default VideoItem
+const VideoItem = ({ videoDetailsObj }) => {
+	return (
+		<div id={videoDetailsObj.id} className="video-item">
+			<img
+				src={videoDetailsObj.image}
+				alt={videoDetailsObj.title}
+				className="video-item__thumbnail"
+			/>
+			<div className="video-item__info-wrapper">
+				<p className="video-item__title">{videoDetailsObj.title}</p>
+				<p className="video-item__author">{videoDetailsObj.channel}</p>
+			</div>
+		</div>
+	);
+};
+
+export default VideoItem;
