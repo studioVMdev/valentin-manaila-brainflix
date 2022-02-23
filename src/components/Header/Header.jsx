@@ -4,6 +4,7 @@ import Button from "../Button/Button";
 import Logo from "../../assets/logo/BrainFlix-logo.svg";
 import UserAvatar from "../../assets/images/Mohan-muruge.jpg";
 import Avatar from "../Avatar/Avatar";
+import UploadLogo from "../../assets/icons/upload.svg";
 
 const Header = () => {
 	return (
@@ -16,7 +17,7 @@ const Header = () => {
 						placeholder="Search"
 						name="search"
 					></input>
-					<Button message="Upload" />
+					<Button image={UploadLogo} message="Upload" />
 					<Avatar src={UserAvatar} className={"header__user-avatar"} />
 				</div>
 			</div>
