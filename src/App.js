@@ -7,16 +7,25 @@ import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
 import VideoDetails from "./components/VideoDetails/VideoDetails";
 import CommentForm from "./components/CommentForm/CommentForm";
 import videosListData from "./data/videos.json";
-import videoDetails from "./data/video-details.json";
+import videosDetailsList from "./data/video-details.json";
 import Avatar from "./components/Avatar/Avatar";
 
 import React, { Component } from "react";
 
 export default class App extends Component {
 	state = {
-		videoDetails: videoDetails,
+		videosDetailsList: videosDetailsList,
 		videosListData: videosListData,
 		currentVideoIndex: 0,
+		currentVideoId: "84e96018-4022-434e-80bf-000ce4cd12b8",
+	};
+
+	playVideo = (id) => {
+		console.log("clicked");
+		console.log("current id in state " + this.state.currentVideoId);
+		console.log("clicked on " + id);
+		this.setState({ currentVideoId: id });
+		console.log("id in state after click " + id);
 	};
 
 	render() {
@@ -24,14 +33,17 @@ export default class App extends Component {
 			<div className="App">
 				<Header />
 				<VideoPlayer
-					videoDetails={
-						this.state.videoDetails[this.state.currentVideoIndex]
+					videoObj={
+						// this.state.videosDetailsList.find(
+						// 	(video) => video.id === this.currentVideoId
+						// )
+						this.state.videosDetailsList[this.state.currentVideoIndex]
 					}
 				/>
 				<main className="main">
 					<VideoDetails
-						videoDetails={
-							this.state.videoDetails[this.state.currentVideoIndex]
+						videosDetailsList={
+							this.state.videosDetailsList[this.state.currentVideoIndex]
 						}
 					/>
 					<section className="comments">
@@ -41,7 +53,9 @@ export default class App extends Component {
 							<CommentForm />
 							<CommentList
 								videoDetail={
-									this.state.videoDetails[this.state.currentVideoIndex]
+									this.state.videosDetailsList[
+										this.state.currentVideoIndex
+									]
 								}
 							/>
 						</div>
@@ -51,6 +65,7 @@ export default class App extends Component {
 						<VideosList
 							videosListData={this.state.videosListData}
 							currentVideoIndex={this.state.currentVideoIndex}
+							handlePlayVideo={this.playVideo}
 						/>
 					</aside>
 				</main>

@@ -1,15 +1,17 @@
 import React from "react";
 import "./VideoPlayer.scss";
 
-const VideoPlayer = ({ videoDetails }) => {
+const VideoPlayer = ({ videoObj }) => {
 	return (
 		<section className="video-player">
 			<div className="video-player__container">
 				<video
-					id={videoDetails.id}
-					poster={videoDetails.image}
-					src={videoDetails.video}
+					id={videoObj.id}
+					poster={videoObj.image}
+					type="video/mp4"
+					src={videoObj.video}
 					className="video-player__player"
+					controls
 				></video>
 				<div className="video-player__controls"></div>
 			</div>

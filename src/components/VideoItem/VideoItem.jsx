@@ -1,8 +1,20 @@
 import "./VideoItem.scss";
 
-const VideoItem = ({ videoDetailsObj }) => {
+const VideoItem = ({
+	videoDetailsObj,
+	handlePlayVideo,
+	currentVideoIndex,
+	currentVideoId,
+}) => {
 	return (
-		<div id={videoDetailsObj.id} className="video-item">
+		<div
+			id={videoDetailsObj.id}
+			className="video-item"
+			onClick={() => handlePlayVideo(currentVideoId)}
+			// onclick={() => {
+			// 	console.log("clicked");
+			// }}
+		>
 			<img
 				src={videoDetailsObj.image}
 				alt={videoDetailsObj.title}
