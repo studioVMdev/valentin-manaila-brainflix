@@ -25,7 +25,10 @@ export default class App extends Component {
 		console.log("current id in state " + this.state.currentVideoId);
 		console.log("clicked on " + id);
 		this.setState({ currentVideoId: id });
-		console.log("id in state after click " + id);
+    console.log("id in state after click " + id);
+		console.log(
+			"object in state after click " + this.state.videosDetailsList
+		);
 	};
 
 	render() {

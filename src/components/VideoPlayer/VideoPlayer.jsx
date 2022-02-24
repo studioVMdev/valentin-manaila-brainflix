@@ -2,6 +2,7 @@ import React from "react";
 import "./VideoPlayer.scss";
 
 const VideoPlayer = ({ videoObj }) => {
+  console.log(videoObj);
 	return (
 		<section className="video-player">
 			<div className="video-player__container">
