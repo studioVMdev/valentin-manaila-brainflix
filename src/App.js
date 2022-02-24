@@ -1,5 +1,4 @@
 import "./App.scss";
-import Button from "./components/Button/Button";
 import CommentList from "./components/CommentList/CommentList";
 import VideosList from "./components/VideosList/VideosList";
 import Header from "./components/Header/Header";
@@ -16,37 +15,43 @@ export default class App extends Component {
 	state = {
 		videosDetailsList: videosDetailsList,
 		videosListData: videosListData,
-		currentVideoIndex: 0,
+
 		currentVideoId: "84e96018-4022-434e-80bf-000ce4cd12b8",
 	};
 
 	playVideo = (id) => {
-		console.log("clicked");
-		console.log("current id in state " + this.state.currentVideoId);
-		console.log("clicked on " + id);
-		this.setState({ currentVideoId: id });
-    console.log("id in state after click " + id);
-		console.log(
-			"object in state after click " + this.state.videosDetailsList
-		);
+		// console.log("clicked");
+		// console.log("current id in state " + this.state.currentVideoId);
+		// console.log("clicked on " + id);
+
+		this.setState({ currentVideoId: id }, () => {
+			console.log(
+				"object in state after click " +
+					this.state.videosDetailsList.find(
+						(videoDetailsObj) => videoDetailsObj.id === id
+					).id
+			);
+		});
+
+		// console.log("id in state after click " + id);
 	};
 
 	render() {
+		const currentVideoObject = this.state.videosDetailsList.find(
+			(videoDetailsObj) => {
+				return videoDetailsObj.id === this.state.currentVideoId;
+			}
+		);
+
 		return (
 			<div className="App">
 				<Header />
-				<VideoPlayer
-					videoObj={
-						// this.state.videosDetailsList.find(
-						// 	(video) => video.id === this.currentVideoId
-						// )
-						this.state.videosDetailsList[this.state.currentVideoIndex]
-					}
-				/>
+				<VideoPlayer videoObj={currentVideoObject} />
 				<main className="main">
 					<VideoDetails
 						videosDetailsList={
-							this.state.videosDetailsList[this.state.currentVideoIndex]
+							// this.state.videosDetailsList[this.state.currentVideoIndex]
+							currentVideoObject
 						}
 					/>
 					<section className="comments">
@@ -56,9 +61,10 @@ export default class App extends Component {
 							<CommentForm />
 							<CommentList
 								videoDetail={
-									this.state.videosDetailsList[
-										this.state.currentVideoIndex
-									]
+									// this.state.videosDetailsList[
+									// 	this.state.currentVideoIndex
+									// ]
+									currentVideoObject
 								}
 							/>
 						</div>
