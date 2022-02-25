@@ -1,0 +1,29 @@
+@use "../../styles/_index.scss" as *;
+
+.button {
+	background-color: $clr-primary-accent;
+	color: $clr-primary-light;
+	height: 4rem;
+	padding: 0 3.2rem;
+	border-radius: 0.4rem;
+	text-transform: uppercase;
+	@include flex;
+  width: 100%;
+  @include media-tablet{
+    width: 15rem;
+  }
+
+	&:hover {
+		background-color: $clr-secondary-accent;
+	}
+
+	&__logo {
+		position: absolute;
+		left: 15px;
+		height: 1.6rem;
+	}
+
+  &__message{
+    vertical-align: center;
+  }
+}

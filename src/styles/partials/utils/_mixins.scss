@@ -121,3 +121,14 @@
 	justify-content: $justify;
 	align-items: $align;
 }
+
+
+@mixin padding-site {
+    padding: 0 1.6rem;
+    @include media-tablet{
+      padding: 0 3.6rem;
+    }
+    @include media-desktop{
+      max-width: calc(110rem - 3.6rem - 3.6rem);
+    }
+  }
