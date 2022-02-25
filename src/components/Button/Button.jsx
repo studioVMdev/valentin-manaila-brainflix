@@ -1,16 +1,13 @@
 import React from "react";
-
+import "./Button.scss";
 
 const Button = ({ message, image }) => {
 	return (
 		<button
-			className={
-				message === "Comment"
-					? "button comment__button"
-					: "button upload__button"
-			}
+			onClick={(e) => e.preventDefault()}
+			className={`${message}__button button`}
 		>
-			<img src={image} alt="" className="button__logo" />
+			<img src={image} alt={`${message} button`} className="button__logo" />
 			<p className="button__message">{message}</p>
 		</button>
 	);

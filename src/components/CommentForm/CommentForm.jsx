@@ -8,12 +8,11 @@ const CommentForm = () => {
 		<form action="" className="comments__form">
 			<label htmlFor="comment">
 				Join the conversation
-				<input
-					type="text"
+				<textarea
 					name="comment"
 					className="comment__input input-field"
 					placeholder="Add a new comment"
-				/>
+				></textarea>
 			</label>
 			<Button
 				message="Comment"

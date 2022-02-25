@@ -8,6 +8,8 @@ import CommentForm from "./components/CommentForm/CommentForm";
 import videosListData from "./data/videos.json";
 import videosDetailsList from "./data/video-details.json";
 import Avatar from "./components/Avatar/Avatar";
+import userAvatar from "./assets/images/Mohan-muruge.jpg";
+import axios from "axios";
 
 import React, { Component } from "react";
 
@@ -15,15 +17,13 @@ export default class App extends Component {
 	state = {
 		videosDetailsList: videosDetailsList,
 		videosListData: videosListData,
-
+		// videosDetailsList: [],
+		// videosListData: [],
 		currentVideoId: "84e96018-4022-434e-80bf-000ce4cd12b8",
+		currentVideoObject: null,
 	};
 
 	playVideo = (id) => {
-		// console.log("clicked");
-		// console.log("current id in state " + this.state.currentVideoId);
-		// console.log("clicked on " + id);
-
 		this.setState({ currentVideoId: id }, () => {
 			console.log(
 				"object in state after click " +
@@ -32,9 +32,26 @@ export default class App extends Component {
 					).id
 			);
 		});
-
-		// console.log("id in state after click " + id);
 	};
+
+	componentDidMount() {
+		// axios("http://localhost:4000/videosList").then((response) => {
+		// 	this.setState(
+		// 		{ videosListData: response.data },
+		// 		console.log(this.state)
+		// 	);
+		// });
+		// axios("http://localhost:4000/videoDetails").then((response) => {
+		// 	const currVid = response.data.find((videoDetailsObj) => {
+		// 		return videoDetailsObj.id === this.state.currentVideoId;
+		// 	});
+		// 	this.setState(
+		// 		{ videosDetailsList: response.data },
+		// 		console.log(this.state)
+		// 	);
+		// 	this.setState({ currentVideoObject: currVid });
+		// });
+	}
 
 	render() {
 		const currentVideoObject = this.state.videosDetailsList.find(
@@ -43,37 +60,26 @@ export default class App extends Component {
 			}
 		);
 
+		// const currentVideoObject = this.state.currentVideoObject;
+
 		return (
 			<div className="App">
 				<Header />
 				<VideoPlayer videoObj={currentVideoObject} />
 				<main className="main">
-					<VideoDetails
-						videosDetailsList={
-							// this.state.videosDetailsList[this.state.currentVideoIndex]
-							currentVideoObject
-						}
-					/>
+					<VideoDetails videosDetailsList={currentVideoObject} />
 					<section className="comments">
 						<div className="comments__container">
-							{/* <img src="" alt="user-icon" /> */}
-							<Avatar className={"comments__avatar"} />
+							<Avatar className={"comments__avatar"} src={userAvatar} />
 							<CommentForm />
-							<CommentList
-								videoDetail={
-									// this.state.videosDetailsList[
-									// 	this.state.currentVideoIndex
-									// ]
-									currentVideoObject
-								}
-							/>
+							<CommentList videoDetail={currentVideoObject} />
 						</div>
 					</section>
 
 					<aside className="videos-list">
 						<VideosList
 							videosListData={this.state.videosListData}
-							currentVideoIndex={this.state.currentVideoIndex}
+							currentVideoId={this.state.currentVideoId}
 							handlePlayVideo={this.playVideo}
 						/>
 					</aside>

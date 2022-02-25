@@ -1,0 +1,8 @@
+@use "../../styles/_index.scss" as *;
+
+.info{
+  &__title{
+    @include font-page-header;
+    color: $clr-primary-dark;
+  }
+}

@@ -1,6 +1,37 @@
-.header{
-  &__user-avatar{
-    width: 40px;
-    height: auto;
-  }
+@use "../../styles/_index.scss" as *;
+
+.header {
+	&__user-avatar {
+		width: 40px;
+		height: auto;
+	}
+
+	&__container {
+		@include flex(center, center, column);
+		@include media-tablet {
+			@include flex;
+		}
+	}
+
+	&__wrapper {
+		@include flex;
+		flex-wrap: wrap;
+	}
+
+	&__search-wrapper {
+		// position: relative
+	}
+	&__search-icon {
+		position: relative;
+		top: 8px;
+		left: 28px;
+	}
+	&__search-input{
+		text-indent: 3rem;
+	}
+	&__user-avatar {
+		@include media-tablet {
+			order: 3;
+		}
+	}
 }

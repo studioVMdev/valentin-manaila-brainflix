@@ -1,6 +1,18 @@
-.video-player{
+@use "../../styles/_index.scss" as *;
 
+.video-player{
+  &__container{
+    background-color: $clr-secondary-dark;
+    display: flex;
+    justify-content: center;
+  }
   &__player{
-    max-width: 600px;
+    max-width: 68rem;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    @include media-tablet{
+      max-width: 110rem;
+    }
   }
 }

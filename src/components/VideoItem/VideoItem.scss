@@ -1,3 +1,13 @@
-.video-item__thumbnail{
-  width: 100px;
-}
+@use "../../styles/_index.scss" as *;
+
+
+//todo check width;
+
+.video-item{
+  &__thumbnail{
+    width: 10rem;
+    border-radius: 0.4rem;
+    aspect-ratio: 1.77;
+    object-fit: cover;
+  }
+  }
