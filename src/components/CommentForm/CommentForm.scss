@@ -1,0 +1,42 @@
+@use "../../styles//partials/utils/index" as *;
+
+.comments__form{
+  width: 100%;
+  @include flex(flex-start, flex-start, column);
+  margin-left: 1.6rem;
+  // border: 2px solid blue;
+  flex-wrap: wrap;
+
+  @include media-tablet{
+    @include flex(space-between, flex-end, row);
+    flex-wrap: nowrap;
+  }
+
+  @include media-desktop{
+    padding-right: 2.4rem;
+  }
+
+}
+.comment__input-label{
+  @include font-sub-header;
+  color: $clr-primary-medium;
+  text-transform: uppercase;
+  // border: 1px solid red;
+}
+
+.comment__input-wrapper{
+  @include flex(flex-start, flex-start, column);
+  width: 100%;
+  @include media-tablet{
+    padding-right: 2.4rem;
+  } 
+}
+
+.comment__input{
+  margin-bottom: 1.6rem;
+  @include media-tablet{
+    margin-bottom: 0;
+    height: 4rem;
+    padding: 0.8rem;
+  }
+}

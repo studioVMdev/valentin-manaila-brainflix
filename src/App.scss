@@ -1,42 +1,60 @@
-@use './styles/_index.scss' as *;
-
+@use "./styles/_index.scss" as *;
 
 .App {
-  text-align: center;
-  margin: 0 auto;
-  @include padding-site;
-  
-  }
-
-  .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+	@include flex(center, center, column);
+}
+.header,
+.main {
+	@include padding-site;
 }
 
-.App-link {
-  color: #61dafb;
-}
-.input-field{
-  height: 4rem;
-  outline: none;
-  border: 1px solid $clr-secondary-medium;
-  border-radius: 4px;
-  &:focus{
-    border: 2px solid $clr-primary-accent;
-  }
+.main {
+	@include flex(flex-start, center, column);
+	justify-content: flex-start;
+	align-items: flex-start;
+
+	@include media-desktop {
+		flex-direction: row;
+	}
+
+	&__left {
+		@include media-desktop {
+			max-width: 62rem;
+		}
+	}
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.input-field {
+	border: 1px solid $clr-primary-dark;
+	width: 100%;
+	padding: 1rem;
+	border-radius: 4px;
+	@include font-body-copy;
+	color: $clr-primary-dark;
+	min-height: 4rem;
+	&::placeholder {
+		color: $clr-primary-dark;
+	}
+	&:focus {
+		outline: none;
+		border: 2px solid $clr-primary-accent;
+	}
+}
+
+.comments {
+	&__container {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	&__avatar {
+		align-self: flex-end;
+		// margin-bottom: 1.6rem;
+	}
+}
+
+.comments__form-wrapper {
+	@include flex(flex-start, flex-start, row);
+	width: 100%;
+	padding-bottom: 2.4rem;
 }
