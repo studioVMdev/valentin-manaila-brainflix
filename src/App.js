@@ -9,18 +9,19 @@ import videosListData from "./data/videos.json";
 import videosDetailsList from "./data/video-details.json";
 import Avatar from "./components/Avatar/Avatar";
 import userAvatar from "./assets/images/Mohan-muruge.jpg";
-import axios from "axios";
 
 import React, { Component } from "react";
+import axios from "axios";
 
 export default class App extends Component {
 	state = {
 		videosDetailsList: videosDetailsList,
 		videosListData: videosListData,
+		// videosDetailsList2: [],
+		// videosListData2: [],
 		// videosDetailsList: [],
 		// videosListData: [],
 		currentVideoId: "84e96018-4022-434e-80bf-000ce4cd12b8",
-		currentVideoObject: null,
 	};
 
 	playVideo = (id) => {
@@ -35,21 +36,18 @@ export default class App extends Component {
 	};
 
 	componentDidMount() {
-		// axios("http://localhost:4000/videosList").then((response) => {
-		// 	this.setState(
-		// 		{ videosListData: response.data },
-		// 		console.log(this.state)
-		// 	);
-		// });
-		// axios("http://localhost:4000/videoDetails").then((response) => {
-		// 	const currVid = response.data.find((videoDetailsObj) => {
-		// 		return videoDetailsObj.id === this.state.currentVideoId;
-		// 	});
-		// 	this.setState(
-		// 		{ videosDetailsList: response.data },
-		// 		console.log(this.state)
-		// 	);
-		// 	this.setState({ currentVideoObject: currVid });
+		console.log("mounted");
+		// axios
+		// 	.get("http://localhost:5000/videosList")
+		// 	.then((response) => {
+		// 		console.log(response.data);
+		// 		this.setState({ videosListData2: response.data });
+		// 	})
+		// 	.then(() => console.log(this.state.videosDetailsList2));
+
+		// axios.get("http://localhost:5000/videoDetails").then((response) => {
+		// 	console.log(response.data);
+		// 	this.setState({ videosDetailsList2: response.data });
 		// });
 	}
 
@@ -60,22 +58,27 @@ export default class App extends Component {
 			}
 		);
 
-		// const currentVideoObject = this.state.currentVideoObject;
-
 		return (
 			<div className="App">
 				<Header />
 				<VideoPlayer videoObj={currentVideoObject} />
 				<main className="main">
-					<VideoDetails videosDetailsList={currentVideoObject} />
-					<section className="comments">
-						<div className="comments__container">
-							<Avatar className={"comments__avatar"} src={userAvatar} />
-							<CommentForm />
-							<CommentList videoDetail={currentVideoObject} />
-						</div>
-					</section>
-
+					<div className="main__left">
+						<VideoDetails videosDetailsList={currentVideoObject} />
+						<section className="comments">
+							<div className="comments__container">
+								{/* <img src="" alt="user-icon" /> */}
+								<div className="comments__form-wrapper">
+									<Avatar
+										src={userAvatar}
+										className={"comments__avatar"}
+									/>
+									<CommentForm />
+								</div>
+								<CommentList videoDetail={currentVideoObject} />
+							</div>
+						</section>
+					</div>
 					<aside className="videos-list">
 						<VideosList
 							videosListData={this.state.videosListData}

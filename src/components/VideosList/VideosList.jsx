@@ -1,4 +1,5 @@
 import React from "react";
+import "./VideoList.scss";
 import VideoItem from "../VideoItem/VideoItem";
 
 const VideosList = ({ videosListData, currentVideoId, handlePlayVideo }) => {

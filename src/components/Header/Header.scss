@@ -1,35 +1,57 @@
-@use "../../styles/_index.scss" as *;
+@use "../../styles//partials/utils/index" as *;
 
 .header {
-	&__user-avatar {
-		width: 40px;
-		height: auto;
-	}
-
+	width: 100%;
+	padding-top: 1.6rem;
+	padding-bottom: 1.6rem;
 	&__container {
+		width: 100%;
 		@include flex(center, center, column);
+		gap: 1.6rem;
 		@include media-tablet {
-			@include flex;
+			@include flex(space-between, center, row);
 		}
 	}
 
-	&__wrapper {
-		@include flex;
+	&__right {
+		width: 100%;
+		@include flex(flex-start, center, row);
+		gap: 1.6rem;
 		flex-wrap: wrap;
+		@include media-tablet {
+			flex-flow: row wrap;
+			@include flex(flex-end, center, row);
+			gap: 2.4rem;
+		}
+	}
+
+	.Upload__button {
+		flex: 1 100%;
 	}
 
 	&__search-wrapper {
-		// position: relative
-	}
-	&__search-icon {
 		position: relative;
-		top: 8px;
-		left: 28px;
+		@include media-tablet {
+		}
+    
+		flex: 1;
+		@include media-tablet {
+			max-width: 24rem;
+		}
 	}
-	&__search-input{
+
+	&__search-input {
 		text-indent: 3rem;
 	}
+
+	&__search-icon {
+		position: absolute;
+		top: 12px;
+		left: 16px;
+	}
+
 	&__user-avatar {
+		flex-basis: auto;
 		@include media-tablet {
 			order: 3;
 		}

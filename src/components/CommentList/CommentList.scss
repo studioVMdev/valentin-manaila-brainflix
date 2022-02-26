@@ -1,0 +1,7 @@
+@use "../../styles//partials/utils/index" as *;
+
+.comments__list{
+  @include media-desktop{
+    padding-right: 2.4rem;
+  }
+}

@@ -21,7 +21,7 @@
 	font-family: "AvenirBold";
 
 	@include media-tablet {
-		font-size: 33rem;
+		font-size: 3.3rem;
 		line-height: 4.4rem;
 		font-family: "AvenirBold";
 	}
@@ -46,8 +46,8 @@
 	font-family: "AvenirBold";
 
 	@include media-tablet {
-		font-size: 2.4rem;
-		line-height: 3.2rem;
+		font-size: 1.4rem;
+		line-height: 2.2rem;
 		font-family: "AvenirBold";
 	}
 }
@@ -129,6 +129,6 @@
       padding: 0 3.6rem;
     }
     @include media-desktop{
-      max-width: calc(110rem - 3.6rem - 3.6rem);
+      max-width: 100rem;
     }
   }
