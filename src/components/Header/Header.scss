@@ -33,7 +33,7 @@
 		position: relative;
 		@include media-tablet {
 		}
-    
+
 		flex: 1;
 		@include media-tablet {
 			max-width: 24rem;
@@ -42,6 +42,7 @@
 
 	&__search-input {
 		text-indent: 3rem;
+		height: 4rem;
 	}
 
 	&__search-icon {

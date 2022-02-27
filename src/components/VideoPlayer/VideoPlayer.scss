@@ -1,20 +1,16 @@
 @use "../../styles//partials/utils/index" as *;
 
-.video-player{
-  &__container{
-    background-color: $clr-secondary-dark;
-    display: flex;
-    justify-content: center;
-    width: 100vw;
-  }
-  &__player{
-    // @include padding-site;
-    max-width: calc(100rem - 3.6rem - 3.6rem);
-    // width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    @include media-tablet{
-      // max-width: 110rem;
-    }
-  }
+.video-player {
+  background-color: black;
+  width: 100%;
+	&__container {
+		display: flex;
+		justify-content: center;
+	}
+	&__player {
+		max-width: 696px;
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		object-fit: cover;
+	}
 }
