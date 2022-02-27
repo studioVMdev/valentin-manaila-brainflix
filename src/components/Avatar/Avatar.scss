@@ -1,0 +1,14 @@
+@use "../../styles/_index.scss" as *;
+
+.avatar{
+  border-radius: 50%;
+  height: 3.2rem;
+  aspect-ratio: 1;
+  background-position: center;
+  background-size: contain;
+  background-color: $clr-primary-medium;
+
+  @include media-tablet{
+    height: 4rem;
+  }
+}

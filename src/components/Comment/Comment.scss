@@ -1,0 +1,26 @@
+@use "../../styles//partials/utils/index" as *;
+
+.comment {
+	@include flex(flex-start, flex-start, row);
+  @include padding-v-component;
+  border-top: $border-line;
+  border-bottom: $border-line;
+
+	&__container {
+    padding-left: 1.6rem;
+	}
+	&__info-wrapper{
+    padding-bottom: 1.6rem;
+    @include flex(space-between, center, row);
+	}
+
+  &__author{
+    @include font-sub-header;
+    color: $clr-primary-dark;
+  }
+
+  &__date{
+    @include font-body-copy;
+    color: $clr-primary-medium;
+  }
+}

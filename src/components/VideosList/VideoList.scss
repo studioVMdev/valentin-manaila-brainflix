@@ -1,0 +1,15 @@
+@use "../../styles//partials/utils/index" as *;
+
+.videos-list__container {
+  @include padding-v-component;
+  @include flex(flex-start, flex-start, column);
+  gap: 1.2rem;
+  @include media-desktop{
+    padding-left: 2.4rem;
+    border-left: $border-line;
+  }
+}
+.videos-list__headline{
+  @include font-sub-header;
+  color: $clr-primary-medium;
+}

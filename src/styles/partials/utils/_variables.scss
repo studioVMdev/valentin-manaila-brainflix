@@ -1,0 +1,23 @@
+//Colors
+
+$clr-primary-dark: #323232;
+$clr-primary-accent: #0095ff;
+$clr-primary-medium: #afafaf;
+$clr-primary-light: #fff;
+
+$clr-secondary-dark: #000;
+$clr-secondary-accent: #0065ad;
+$clr-secondary-medium: #e1e1e1;
+$clr-secondary-light: #fafafa;
+
+$clr-success: green;
+$clr-warning: yellow;
+$clr-error: #d22d2d;
+
+// Breakpoints
+// Mobile first design up to 768px
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1280px;
+
+// Utils
+$border-line: 1px solid $clr-secondary-medium;

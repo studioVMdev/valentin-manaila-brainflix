@@ -1,0 +1,28 @@
+@use "../../styles//partials/utils/index" as *;
+
+//todo check width;
+
+.video-item {
+	@include flex;
+
+	&__thumbnail {
+		width: 10rem;
+		border-radius: 0.4rem;
+		aspect-ratio: 1.77;
+		object-fit: cover;
+	}
+
+	&__info-wrapper {
+		padding-left: 1.6rem;
+    max-width: 18rem;
+	}
+	&__title {
+		@include font-sub-header;
+		color: $clr-primary-dark;
+	}
+
+	&__author {
+		@include font-body-copy;
+		color: $clr-primary-dark;
+	}
+}

@@ -1,0 +1,60 @@
+@use "./styles/_index.scss" as *;
+
+.App {
+	@include flex(center, center, column);
+}
+.header,
+.main {
+	@include padding-site;
+}
+
+.main {
+	@include flex(flex-start, center, column);
+	justify-content: flex-start;
+	align-items: flex-start;
+
+	@include media-desktop {
+		flex-direction: row;
+	}
+
+	&__left {
+		@include media-desktop {
+			max-width: 62rem;
+		}
+	}
+}
+
+.input-field {
+	border: 1px solid $clr-primary-dark;
+	width: 100%;
+	padding: 1rem;
+	border-radius: 4px;
+	@include font-body-copy;
+	color: $clr-primary-dark;
+	min-height: 4rem;
+	&::placeholder {
+		color: $clr-primary-dark;
+	}
+	&:focus {
+		outline: none;
+		border: 2px solid $clr-primary-accent;
+	}
+}
+
+.comments {
+	&__container {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	&__avatar {
+		align-self: flex-end;
+		// margin-bottom: 1.6rem;
+	}
+}
+
+.comments__form-wrapper {
+	@include flex(flex-start, flex-start, row);
+	width: 100%;
+	padding-bottom: 2.4rem;
+}
