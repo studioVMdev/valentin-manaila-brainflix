@@ -18,8 +18,10 @@
 	}
 
 	&__left {
+    
 		@include media-desktop {
 			max-width: 62rem;
+      border-right: $border-line;
 		}
 	}
 }
@@ -39,6 +41,10 @@
 		outline: none;
 		border: 2px solid $clr-primary-accent;
 	}
+}
+
+.input-field--error{
+  border: 2px solid $clr-error;
 }
 
 .comments {

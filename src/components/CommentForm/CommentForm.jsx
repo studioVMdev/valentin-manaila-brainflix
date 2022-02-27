@@ -1,11 +1,12 @@
 import React from "react";
 import "./CommentForm.scss";
 import Button from "../Button/Button";
-import AddCommentLogo from "../../assets/icons/add_comment.svg";
+import addCommentLogo from "../../assets/icons/add_comment.svg";
+import handleSubmit from "../../utils/handleSubmit.mjs";
 
 const CommentForm = () => {
 	return (
-		<form action="" className="comments__form">
+		<form onSubmit={handleSubmit} action="" className="comments__form">
 			<div className="comment__input-wrapper">
 				<label htmlFor="comment">
 					<p className="comment__input-label">Join the conversation</p>
@@ -19,7 +20,7 @@ const CommentForm = () => {
 			</div>
 			<Button
 				message="Comment"
-				image={AddCommentLogo}
+				image={addCommentLogo}
 				className="comment__button"
 			/>
 		</form>
