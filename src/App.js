@@ -1,92 +1,101 @@
 import "./App.scss";
-import CommentList from "./components/CommentList/CommentList";
-import VideosList from "./components/VideosList/VideosList";
-import Header from "./components/Header/Header";
-import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
-import VideoDetails from "./components/VideoDetails/VideoDetails";
-import CommentForm from "./components/CommentForm/CommentForm";
-import videosListData from "./data/videos.json";
+// import CommentList from "./components/CommentList/CommentList";
+// import VideosList from "./components/VideosList/VideosList";
+// import Header from "./components/Header/Header";
+// import VideoPlayer from "./components/VideoPlayer/VideoPlayer";
+// import VideoDetails from "./components/VideoDetails/VideoDetails";
+// import CommentForm from "./components/CommentForm/CommentForm";
+// import Avatar from "./components/Avatar/Avatar";
+// import videosListData from "./data/videos.json";
+// import userAvatar from "./assets/images/Mohan-muruge.jpg";
 import videosDetailsList from "./data/video-details.json";
-import Avatar from "./components/Avatar/Avatar";
-import userAvatar from "./assets/images/Mohan-muruge.jpg";
+import HomePage from "./components/Pages/HomePage/HomePage";
+import UploadPage from "./components/Pages/UploadPage/UploadPage";
+import NotFound from "./components/Pages/NotFound/NotFound";
+import { API_KEY, BASE_URL } from "./utils/apiCalls.mjs";
+import { Route, Switch, Redirect } from "react-router-dom";
 
 import React, { Component } from "react";
+
 import axios from "axios";
 
 export default class App extends Component {
 	state = {
 		videosDetailsList: videosDetailsList,
-		videosListData: videosListData,
-		// videosDetailsList2: [],
-		// videosListData2: [],
 		// videosDetailsList: [],
-		// videosListData: [],
+		// videosListData: videosListData,
+		videosListData: [],
+		currentVideoDetails: null,
 		currentVideoId: "84e96018-4022-434e-80bf-000ce4cd12b8",
+		// currentVideoId: ""
 	};
 
 	playVideo = (id) => {
-		this.setState({ currentVideoId: id }, () => {
-			console.log(
-				"object in state after click " +
-					this.state.videosDetailsList.find(
-						(videoDetailsObj) => videoDetailsObj.id === id
-					).id
-			);
-		});
+		// this.setState({ currentVideoId: id });
+
+		axios
+			.get(`${BASE_URL}/videos/${id}?api_key=${API_KEY}`)
+			.then((response) => {
+				console.log(response.data);
+				this.setState({
+					currentVideoId: id,
+					currentVideoDetails: response.data,
+				});
+			});
 	};
 
 	componentDidMount() {
 		console.log("mounted");
-		// axios
-		// 	.get("http://localhost:5000/videosList")
-		// 	.then((response) => {
-		// 		console.log(response.data);
-		// 		this.setState({ videosListData2: response.data });
-		// 	})
-		// 	.then(() => console.log(this.state.videosDetailsList2));
-
-		// axios.get("http://localhost:5000/videoDetails").then((response) => {
-		// 	console.log(response.data);
-		// 	this.setState({ videosDetailsList2: response.data });
-		// });
+		axios
+			.get(`${BASE_URL}/videos?api_key=${API_KEY}`)
+			.then((response) => {
+				console.log(response.data, "from API");
+				// this.setState({ videosListData: response.data });
+				this.setState({
+					videosListData: response.data,
+					currentVideoId: response.data[0].id,
+				}, console.log(this.state, "state after fetch"));
+				console.log(response.data[0].id, "first id is loaded");
+				// this.setState({currentVideoId: response.data[0].id,})
+			})
+			.then(() => console.log(this.state.videosListData));
 	}
 
 	render() {
-		const currentVideoObject = this.state.videosDetailsList.find(
-			(videoDetailsObj) => {
-				return videoDetailsObj.id === this.state.currentVideoId;
-			}
-		);
-
+		console.log(this.state);
 		return (
 			<div className="App">
-				<Header />
-				<VideoPlayer videoObj={currentVideoObject} />
-				<main className="main">
-					<div className="main__left">
-						<VideoDetails videosDetailsList={currentVideoObject} />
-						<section className="comments">
-							<div className="comments__container">
-								{/* <img src="" alt="user-icon" /> */}
-								<div className="comments__form-wrapper">
-									<Avatar
-										src={userAvatar}
-										className={"comments__avatar"}
-									/>
-									<CommentForm />
-								</div>
-								<CommentList videoDetail={currentVideoObject} />
-							</div>
-						</section>
-					</div>
-					<aside className="videos-list">
-						<VideosList
-							videosListData={this.state.videosListData}
-							currentVideoId={this.state.currentVideoId}
-							handlePlayVideo={this.playVideo}
-						/>
-					</aside>
-				</main>
+				<Switch>
+					<Redirect from="/home" to="/" />
+					<Route
+						path="/"
+						exact
+						component={(routeProps) => {
+							return (
+								<HomePage
+									handlePlayVideo={this.playVideo}
+									stateObj={this.state}
+									{...routeProps}
+								/>
+							);
+						}}
+					/>
+					<Route path="/upload" component={UploadPage} />
+					<Route
+						path="/:videoId"
+						exact
+						render={(routerProps) => {
+							return (
+								<HomePage
+									handlePlayVideo={this.playVideo}
+									stateObj={this.state}
+									{...routerProps}
+								/>
+							);
+						}}
+					/>
+					<Route component={NotFound} />
+				</Switch>
 			</div>
 		);
 	}

@@ -7,6 +7,7 @@ import userAvatar from "../../assets/images/Mohan-muruge.jpg";
 import searchIcon from "../../assets/icons/search.svg";
 import uploadLogo from "../../assets/icons/upload.svg";
 import handleSubmit from "../../utils/handleSubmit.mjs";
+import { Link } from "react-router-dom";
 
 const Header = () => {
 	return (
@@ -27,7 +28,9 @@ const Header = () => {
 						/>
 					</div>
 					<Avatar src={userAvatar} className={"header__user-avatar"} />
-					<Button image={uploadLogo} message="Upload" />
+					<Link to="/upload">
+						<Button image={uploadLogo} message="Upload" />
+					</Link>
 				</form>
 			</div>
 		</header>
