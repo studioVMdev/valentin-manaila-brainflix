@@ -1,14 +1,10 @@
 import "./VideoItem.scss";
 import { Link } from "react-router-dom";
 
-const VideoItem = ({ videoDetailsObj, handlePlayVideo, currentVideoId }) => {
+const VideoItem = ({ videoDetailsObj, currentVideoId }) => {
 	return (
-		<Link to={`/${currentVideoId}`}>
-			<div
-				id={videoDetailsObj.id}
-				className="video-item"
-				onClick={() => handlePlayVideo(currentVideoId)}
-			>
+		<Link to={`/videos/${currentVideoId}`}>
+			<div id={videoDetailsObj.id} className="video-item">
 				<img
 					src={videoDetailsObj.image}
 					alt={videoDetailsObj.title}

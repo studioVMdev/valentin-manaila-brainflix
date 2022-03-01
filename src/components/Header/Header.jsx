@@ -13,7 +13,9 @@ const Header = () => {
 	return (
 		<header className="header">
 			<div className="header__container">
-				<img src={logo} className="header__logo" alt="logo"></img>
+				<Link to="/">
+					<img src={logo} className="header__logo" alt="logo"></img>
+				</Link>
 				<form onSubmit={handleSubmit} className="header__right">
 					<div className="header__search-wrapper">
 						<img

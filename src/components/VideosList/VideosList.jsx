@@ -2,7 +2,7 @@ import React from "react";
 import "./VideoList.scss";
 import VideoItem from "../VideoItem/VideoItem";
 
-const VideosList = ({ videosListData, currentVideoId, handlePlayVideo }) => {
+const VideosList = ({ videosListData, currentVideoId }) => {
 	return (
 		<div className="videos-list__container">
 			<p className="videos-list__headline">Next Videos</p>
@@ -13,7 +13,6 @@ const VideosList = ({ videosListData, currentVideoId, handlePlayVideo }) => {
 						<VideoItem
 							key={videoDetailsObj.id}
 							videoDetailsObj={videoDetailsObj}
-							handlePlayVideo={handlePlayVideo}
 							currentVideoId={videoDetailsObj.id}
 						/>
 					);

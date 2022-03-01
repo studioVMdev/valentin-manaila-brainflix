@@ -2,10 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Button from "../../Button/Button";
 import uploadLogo from "../../../assets/icons/upload.svg";
-{
-	/* <button onClick={() => {}}>Upload</button> */
-}
 const UploadPage = () => {
+	console.log("🎪 upload page mounted");
 	return (
 		<>
 			<h1>Upload Page</h1>
