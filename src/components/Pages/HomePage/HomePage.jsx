@@ -10,6 +10,8 @@ import userAvatar from "../../../assets/images/Mohan-muruge.jpg";
 import {
 	GET_VIDEOS_LIST,
 	GET_VIDEO_DETAILS,
+	DELETE_COMMENT,
+	POST_COMMENT,
 } from "../../../utils/apiCalls.mjs";
 
 export default class HomePage extends Component {
@@ -29,9 +31,23 @@ export default class HomePage extends Component {
 		this.setState({ currentVideoDetails: videoDetailsObj.data });
 	}
 
-	setCurrentVideoId(videoId) {
+	handleDelete = (e) => {
+		const videoId = this.state.currentVideoId;
+		const commentId = e.target.parentElement.parentElement.id;
+		DELETE_COMMENT(videoId, commentId).then((response) => {
+			console.log(response.status);
+			response.status === 200 && this.getVideoDetails(videoId);
+		});
+	};
+
+	handleSubmit = (e) => {
+		e.preventDefault();
+	};
+
+	setCurrentVideoId = (videoId) => {
+		console.log("🥽 setting current video id");
 		this.setState({ currentVideoId: videoId });
-	}
+	};
 
 	componentDidMount() {
 		console.log("🎄 app mounted");
@@ -92,10 +108,13 @@ export default class HomePage extends Component {
 										src={userAvatar}
 										className={"comments__avatar"}
 									/>
-									<CommentForm />
+									<CommentForm handleSubmit={this.handleSubmit} />
 								</div>
 								{currentVideoDetails && (
-									<CommentList videoDetail={currentVideoDetails} />
+									<CommentList
+										currentVideoDetails={currentVideoDetails}
+										handleDelete={this.handleDelete}
+									/>
 								)}
 							</div>
 						</section>

@@ -22,9 +22,9 @@ const App = () => {
 				/>
 				<Route
 					path="/upload"
-					render={(renderProps) => {
+					render={(routerProps) => {
 						console.log("upload rendering");
-						return <UploadPage {...renderProps} />;
+						return <UploadPage {...routerProps} />;
 					}}
 				/>
 				<Route component={NotFound} />

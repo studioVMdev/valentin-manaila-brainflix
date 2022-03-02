@@ -2,9 +2,10 @@ import React from "react";
 import "./CommentForm.scss";
 import Button from "../Button/Button";
 import addCommentLogo from "../../assets/icons/add_comment.svg";
-import handleSubmit from "../../utils/handleSubmit.mjs";
 
-const CommentForm = () => {
+import { POST_COMMENT } from "../../utils/apiCalls.mjs";
+
+const CommentForm = ({ handleSubmit }) => {
 	return (
 		<form onSubmit={handleSubmit} action="" className="comments__form">
 			<div className="comment__input-wrapper">

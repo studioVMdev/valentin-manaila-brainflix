@@ -13,7 +13,6 @@ const VideosList = ({ videosListData, currentVideoId }) => {
 						<VideoItem
 							key={videoDetailsObj.id}
 							videoDetailsObj={videoDetailsObj}
-							currentVideoId={videoDetailsObj.id}
 						/>
 					);
 				})}
