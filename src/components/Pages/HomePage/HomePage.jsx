@@ -42,6 +42,24 @@ export default class HomePage extends Component {
 
 	handleSubmit = (e) => {
 		e.preventDefault();
+		const formIsValid = (e) => {
+			const inputEl = e.target.children[0].children[1];
+			if (inputEl.value === "") {
+				inputEl.classList.add("input-field--error");
+				return false;
+			} else {
+				inputEl.classList.remove("input-field--error");
+				inputEl.value = "";
+				return true;
+			}
+		};
+		const inputVal = e.target.children[0].children[1].value;
+		formIsValid(e) &&
+			POST_COMMENT(this.state.currentVideoId, inputVal)
+				.then((res) => {
+					console.log(res);
+				})
+				.then(() => this.getVideoDetails(this.state.currentVideoId));
 	};
 
 	setCurrentVideoId = (videoId) => {
