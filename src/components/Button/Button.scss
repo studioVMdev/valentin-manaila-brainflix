@@ -2,20 +2,19 @@
 
 .button {
 	background-color: $clr-primary-accent;
-  position: relative;
+	position: relative;
 	color: $clr-primary-light;
 	height: 4rem;
 	padding: 0 3.2rem;
 	border-radius: 0.4rem;
 	text-transform: uppercase;
 	@include flex;
-  width: 100%;
-  // margin: 1.6rem 0;
-  @include font-labels-buttons;
+	width: 100%;
+	@include font-labels-buttons;
 
-  @include media-tablet{
-    max-width: 15rem;
-  }
+	@include media-tablet {
+		max-width: 15rem;
+	}
 
 	&:hover {
 		background-color: $clr-secondary-accent;
@@ -23,12 +22,11 @@
 
 	&__logo {
 		position: absolute;
-		// left: -50%;
-    left: 1rem;
+		left: 1rem;
 		height: 2rem;
 	}
 
-  &__message{
-    vertical-align: center;
-  }
+	&__message {
+		vertical-align: center;
+	}
 }

@@ -1,0 +1,81 @@
+@use "../../../styles/partials/utils/index" as *;
+@use "../../../styles/partials/base/typography" as *;
+
+.upload {
+	width: 100%;
+	@include flex;
+
+	&__title {
+		@include font-page-header;
+		@include padding-v-headline;
+		color: $clr-primary-dark;
+	}
+
+	&__form-wrapper {
+		padding-bottom: 1.6rem;
+		@include media-tablet {
+			border-top: $border-line;
+			border-bottom: $border-line;
+		}
+
+		@include media-desktop {
+			display: flex;
+			align-items: flex-end;
+			gap: 2.4rem;
+		}
+	}
+
+	&__thumbnail {
+		display: block;
+		width: 100%;
+		max-width: 35rem;
+		border-radius: 4px;
+		// margin-bottom: 1rem;
+	}
+
+	&__input {
+		// margin-bottom: 1.6rem;
+		@include media-tablet {
+			height: 4rem;
+			padding: 0.8rem;
+		}
+
+		&-description {
+			@include media-tablet {
+				height: 8.6rem;
+			}
+		}
+	}
+
+	&__input-label {
+    display: inline-block;
+    padding-top: 1.6rem;
+		@include font-sub-header;
+		color: $clr-primary-medium;
+		text-transform: uppercase;
+	}
+
+	&__button {
+		margin: 1.6rem 0;
+		background-color: $clr-primary-light;
+		@include font-labels-buttons;
+		font-weight: 700;
+		color: $clr-primary-accent;
+		&:hover {
+			background-color: $clr-secondary-medium;
+		}
+		@include media-tablet {
+			order: -1;
+		}
+	}
+
+	&__buttons-wrapper {
+		gap: 1rem;
+		@include media-tablet {
+			@include flex(flex-end, center, row) // ;
+;
+		}
+	}
+}
+
+//textcapitalize

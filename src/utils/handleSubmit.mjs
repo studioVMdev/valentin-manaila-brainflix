@@ -1,8 +1,7 @@
 const handleSubmit = (e) => {
 	e.preventDefault();
-	console.log("click");
+	console.log("submit");
 	const inputEl = e.target.children[0].children[1];
-	console.log(e.target);
 	if (inputEl.value === "") {
 		inputEl.classList.add("input-field--error");
 	} else {

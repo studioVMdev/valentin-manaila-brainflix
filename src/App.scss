@@ -3,9 +3,10 @@
 .App {
 	@include flex(center, center, column);
 }
-.header,
-.main {
+.header__container,
+.main, .upload {
 	@include padding-site;
+  margin: 0 auto;
 }
 
 .main {

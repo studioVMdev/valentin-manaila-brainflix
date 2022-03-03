@@ -15,18 +15,12 @@ const App = () => {
 				<Redirect from="/home" to="/" />
 				<Route path="/" exact component={HomePage} />
 				<Route
-					path="/videos/:videoId"
+					path="/video/:videoId"
 					render={(routerProps) => {
 						return <HomePage {...routerProps} />;
 					}}
 				/>
-				<Route
-					path="/upload"
-					render={(routerProps) => {
-						console.log("upload rendering");
-						return <UploadPage {...routerProps} />;
-					}}
-				/>
+				<Route path="/upload" component={UploadPage} />
 				<Route component={NotFound} />
 			</Switch>
 		</div>

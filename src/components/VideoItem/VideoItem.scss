@@ -2,6 +2,15 @@
 
 //todo check width;
 
+a{
+  display: block;
+  display: inline-block;
+  width: 100%;
+  // display: none
+  // @include flex;
+
+}
+
 .video-item {
 	@include flex;
 

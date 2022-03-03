@@ -22,7 +22,7 @@ const POST_COMMENT = (videoId, comment) => {
 	return axios.post(
 		`${process.env.REACT_APP_BASE_URL}/videos/${videoId}/comments?api_key=${process.env.REACT_APP_API_KEY}`,
 		{
-			name: "Valentin Manaila",
+			name: "Mohan Muruge",
 			comment: comment,
 		}
 	);

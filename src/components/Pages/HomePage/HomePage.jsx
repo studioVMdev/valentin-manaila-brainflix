@@ -21,22 +21,11 @@ export default class HomePage extends Component {
 		currentVideoId: null,
 	};
 
-	async getVideosList() {
-		const videosListData = await GET_VIDEOS_LIST();
-		this.setState({ videosListData: videosListData.data });
-	}
-
-	async getVideoDetails(videoId) {
-		const videoDetailsObj = await GET_VIDEO_DETAILS(videoId);
-		this.setState({ currentVideoDetails: videoDetailsObj.data });
-	}
-
 	handleDelete = (e) => {
 		const videoId = this.state.currentVideoId;
 		const commentId = e.target.parentElement.parentElement.id;
 		DELETE_COMMENT(videoId, commentId).then((response) => {
-			console.log(response.status);
-			response.status === 200 && this.getVideoDetails(videoId);
+			response.status === 200 && this.getSelectedVideoDetails(videoId);
 		});
 	};
 
@@ -59,55 +48,94 @@ export default class HomePage extends Component {
 				.then((res) => {
 					console.log(res);
 				})
-				.then(() => this.getVideoDetails(this.state.currentVideoId));
+				.then(() =>
+					this.getSelectedVideoDetails(this.state.currentVideoId)
+				);
 	};
 
-	setCurrentVideoId = (videoId) => {
-		console.log("🥽 setting current video id");
-		this.setState({ currentVideoId: videoId });
-	};
+	//* GET INITIAL STATE==================
+	async getInitialState() {
+		const videosListData = await GET_VIDEOS_LIST();
+		const currentVideoId = videosListData.data[0].id;
+		const videoDetailsObj = await GET_VIDEO_DETAILS(currentVideoId);
+		console.log("💚 setting initial state");
+		this.setState({
+			videosListData: videosListData.data,
+			currentVideoId: currentVideoId,
+			currentVideoDetails: videoDetailsObj.data,
+		});
+	}
+
+	//* GET DEFAULT VIDEO DETAILS============
+
+	async getDefaultVideoDetails(defaultVideoId) {
+		const defaultVideoDetails = await GET_VIDEO_DETAILS(defaultVideoId);
+		console.log("❣ setting initial state");
+		this.setState({
+			currentVideoId: defaultVideoId,
+			currentVideoDetails: defaultVideoDetails.data,
+		});
+	}
+
+	//* GET SELECTED VIDEO DETAILS============
+	async getSelectedVideoDetails(videoId) {
+		const selectedVideoDetails = await GET_VIDEO_DETAILS(videoId);
+		console.log("☢ setting selected video");
+		this.setState(
+			{
+				currentVideoId: videoId,
+				currentVideoDetails: selectedVideoDetails.data,
+			},
+			console.log(this.state)
+		);
+	}
 
 	componentDidMount() {
-		console.log("🎄 app mounted");
-		console.log("👓 main page props", this.props);
-		this.getVideosList()
-			.then(() =>
-				console.log("🧨 video list data fetched", this.state.videosListData)
-			)
-			.then(() => {
-				const currentId = this.state.videosListData[0].id;
-				this.setState({ currentVideoId: currentId });
-				this.getVideoDetails(currentId).then(() => {
-					console.log("🎀 state after update", this.state);
-				});
-			});
+		console.log("🎄🎄🎄🎄 app mounted");
+		this.getInitialState();
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		console.log("🦺 app updated");
-		console.log("🥼 prevProps", prevProps);
-		console.log("🥼 prevState", prevState);
+		console.log("🦺🦺🦺🦺 app updated");
+		// console.log("🥼 prevProps", prevProps);
+		// console.log("🥼 prevState", prevState);
 		const defaultVideoId = this.state.videosListData[0].id;
-		const videoId = this.props.match.params.videoId;
+		const currVideoId = this.props.match.params.videoId;
+		const prevVideoId = this.props.match.params.videoId;
 
-		if (!videoId) {
-			console.log("🎏 videoId", videoId);
+		if (!currVideoId) {
+			console.log("💔 NO videoId", currVideoId);
+
 			if (prevState.currentVideoId === defaultVideoId) {
+				console.log("💙 stop after getting default");
 				return;
 			} else {
-				this.setCurrentVideoId(defaultVideoId);
-				this.getVideoDetails(defaultVideoId);
+				console.log("🧡 getting default video");
+				this.getDefaultVideoDetails(defaultVideoId);
 			}
-		} else if (prevProps.match.params.videoId !== videoId) {
-			console.log("🎏 videoId", videoId);
-			this.getVideoDetails(videoId);
-			this.setState({ currentVideoId: videoId });
+		}
+
+		if (currVideoId) {
+			console.log("setting current video");
+
+			if (this.state.currentVideoId === currVideoId) {
+				return;
+			} else {
+				this.getSelectedVideoDetails(currVideoId);
+			}
+
+			if (prevProps.match.params.videoId === currVideoId) {
+				console.log("already set");
+				return;
+			} else {
+				return;
+			}
 		}
 	}
 
 	render() {
 		const { videosListData, currentVideoDetails } = this.state;
-		console.log("🖼 from Home render");
+		console.log("🖼 state from Home render", this.state);
 		return (
 			<>
 				{currentVideoDetails && (
@@ -138,12 +166,11 @@ export default class HomePage extends Component {
 						</section>
 					</div>
 					<aside className="videos-list">
-						{videosListData && (
-							<VideosList
-								videosListData={videosListData}
-								currentVideoId={videosListData}
-							/>
-						)}
+						<VideosList
+							videosListData={videosListData}
+							currentVideoId={this.state.currentVideoId}
+						/>
+						{/* )} */}
 					</aside>
 				</main>
 			</>

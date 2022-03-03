@@ -16,7 +16,7 @@ const Header = () => {
 				<Link to="/">
 					<img src={logo} className="header__logo" alt="logo"></img>
 				</Link>
-				<form onSubmit={handleSubmit} className="header__right">
+				<div className="header__right">
 					<div className="header__search-wrapper">
 						<img
 							src={searchIcon}
@@ -30,10 +30,10 @@ const Header = () => {
 						/>
 					</div>
 					<Avatar src={userAvatar} className={"header__user-avatar"} />
-					<Link to="/upload">
+					<Link to="/upload" style={{}}>
 						<Button image={uploadLogo} message="Upload" />
 					</Link>
-				</form>
+				</div>
 			</div>
 		</header>
 	);
