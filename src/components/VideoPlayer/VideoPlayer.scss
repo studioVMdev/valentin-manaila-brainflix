@@ -1,16 +1,130 @@
 @use "../../styles//partials/utils/index" as *;
 
 .video-player {
-  background-color: black;
-  width: 100%;
+	background-color: black;
+	width: 100%;
 	&__container {
+		max-width: 70rem;
 		display: flex;
 		justify-content: center;
+		align-items: center;
+		margin: 0 auto;
+		position: relative;
 	}
 	&__player {
-		max-width: 696px;
 		width: 100%;
 		aspect-ratio: 16 / 9;
 		object-fit: cover;
 	}
+}
+
+.player {
+	@include flex;
+	justify-content: space-between;
+	gap: 1.6rem;
+	width: 100%;
+	position: absolute;
+	top: calc(100% - 4.8rem);
+
+	margin: 0 1.6rem;
+	&__left-wrapper {
+		@include flex;
+    margin-left: 1.6rem;
+	}
+
+	&__play-button {
+		color: white;
+		height: 1.6rem;
+		width: 1.6rem;
+		background-image: url("../../assets/icons/play.svg");
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: contain;
+	}
+
+	&__scrubbing {
+		width: 100%;
+		height: 100%;
+		@include flex;
+		gap: 1.6rem;
+	}
+
+	&__right-wrapper {
+		@include flex;
+		gap: 1.6rem;
+    margin-right: 1.6rem;
+	}
+
+	&__fullscreen-button {
+		color: white;
+		height: 2rem;
+		width: 2rem;
+		background-image: url("../../assets/icons/fullscreen.svg");
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: contain;
+	}
+
+	&__volume-button {
+		color: white;
+		height: 2rem;
+		width: 2rem;
+		background-image: url("../../assets/icons/volume_off.svg");
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: contain;
+	}
+}
+
+.player-wrapper {
+	max-height: 3rem;
+	border-radius: 4px;
+	background-color: rgba($color: #000000, $alpha: 0.5);
+	padding: 0.8rem;
+}
+
+.timeline {
+	width: 100%;
+	padding: 0 0.8rem;
+	@include flex(flex-start, center, row);
+	position: relative;
+
+	&__scrubbing-icon {
+		z-index: 2;
+		width: 1.6rem;
+		height: 1.6rem;
+		border-radius: 50%;
+		background-color: $clr-primary-light;
+		position: absolute;
+		left: 30%;
+	}
+
+	&__duration {
+		position: absolute;
+		width: 100%;
+		background-color: $clr-secondary-dark;
+		padding: 0.2rem;
+		border-radius: 2px;
+	}
+
+	&__buffering {
+		position: absolute;
+		width: 70%;
+		background-color: $clr-secondary-medium;
+		padding: 0.2rem;
+		border-radius: 2px;
+	}
+
+	&__current {
+		position: absolute;
+		width: 30%;
+		background-color: $clr-primary-accent;
+		padding: 0.2rem;
+		border-radius: 2px;
+	}
+}
+
+.time {
+	display: flex;
+	color: $clr-primary-light;
 }
