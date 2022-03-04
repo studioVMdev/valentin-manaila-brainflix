@@ -1,8 +1,28 @@
 import React from "react";
 import "./VideoPlayer.scss";
+import ContentLoader from "react-content-loader";
+
+const MyLoader = (props) => (
+	<ContentLoader
+		speed={2}
+		width={160}
+		height={90}
+		viewBox="0 0 160 90"
+		backgroundColor="#f3f3f3"
+		foregroundColor="#ecebeb"
+		{...props}
+	>
+		<rect x="0" y="0" rx="0" ry="0" width="160" height="90" />
+	</ContentLoader>
+);
 
 const VideoPlayer = ({ videoObj }) => {
-	return (
+	if (!videoObj) {
+		return <p className="loading">loading</p>;
+  } else {
+    
+    
+    return (
 		<section className="video-player">
 			<div className="video-player__container">
 				<video
@@ -40,6 +60,7 @@ const VideoPlayer = ({ videoObj }) => {
 			{/* <div className="video-player__controls"></div> */}
 		</section>
 	);
+}
 };
 
 export default VideoPlayer;

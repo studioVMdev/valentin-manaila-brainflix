@@ -1,0 +1,20 @@
+@use "../../../styles/partials/utils/index" as *;
+@use "../../../styles/partials/base/typography" as *;
+
+.not-found {
+	&__container {
+		@include flex(center, center, column);
+	}
+
+	&__title {
+		@include font-page-header;
+		@include padding-v-headline;
+		color: $clr-primary-dark;
+		border-bottom: $border-line;
+    margin-bottom: 2.4rem;
+	}
+
+	&__button {
+		margin: 0 auto;
+	}
+}
