@@ -1,8 +1,7 @@
 import React from "react";
 import "./CommentList.scss";
 import Comment from "../Comment/Comment";
-import { v4 as uuidv4 } from "uuid";
-import { DELETE_COMMENT } from "../../utils/apiCalls.mjs";
+
 
 const CommentList = ({ currentVideoDetails, handleDelete }) => {
 	return (
@@ -15,7 +14,6 @@ const CommentList = ({ currentVideoDetails, handleDelete }) => {
 							key={commentObj.id}
 							commentObj={commentObj}
 							handleDelete={handleDelete}
-							// interceptDelete={interceptDelete}
 						/>
 					);
 				})}
