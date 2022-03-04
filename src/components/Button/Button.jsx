@@ -3,7 +3,7 @@ import "./Button.scss";
 
 const Button = ({ message, image }) => {
 	return (
-		<button className={`${message}__button button`}>
+		<button type="click" className={`${message}__button button`}>
 			<img src={image} alt={`${message} button`} className="button__logo" />
 			<p className="button__message">{message}</p>
 		</button>

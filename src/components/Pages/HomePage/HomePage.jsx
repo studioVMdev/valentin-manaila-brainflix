@@ -20,41 +20,26 @@ export default class HomePage extends Component {
 		currentVideoDetails: null,
 		currentVideoId: null,
 	};
+	//* DELETE COMMENT and UPDATE UI =========
 
-	handleDelete = (e) => {
-		const videoId = this.state.currentVideoId;
+	deleteComment = (e) => {
+		const currVideoId = this.state.currentVideoId;
 		const commentId = e.target.parentElement.parentElement.id;
-		DELETE_COMMENT(videoId, commentId).then((response) => {
-			response.status === 200 && this.getSelectedVideoDetails(videoId);
+		DELETE_COMMENT(currVideoId, commentId).then((response) => {
+			response.status === 200 && this.getSelectedVideoDetails(currVideoId);
 		});
 	};
 
-	handleSubmit = (e) => {
-		e.preventDefault();
-		const formIsValid = (e) => {
-			const inputEl = e.target.children[0].children[1];
-			if (inputEl.value === "") {
-				inputEl.classList.add("input-field--error");
-				return false;
-			} else {
-				inputEl.classList.remove("input-field--error");
-				inputEl.value = "";
-				return true;
-			}
-		};
-		const inputVal = e.target.children[0].children[1].value;
-		formIsValid(e) &&
-			POST_COMMENT(this.state.currentVideoId, inputVal)
-				.then((res) => {
-					console.log(res);
-				})
-				.then(() =>
-					this.getSelectedVideoDetails(this.state.currentVideoId)
-				);
+	//* POST COMMENT and UPDATE UI =========
+
+	postComment = async (comment) => {
+		const currVideoId = this.state.currentVideoId;
+		const response = await POST_COMMENT(currVideoId, comment);
+		response.status === 200 && this.getSelectedVideoDetails(currVideoId);
 	};
 
 	//* GET INITIAL STATE==================
-	async getInitialState() {
+	getInitialState = async () => {
 		const videosListData = await GET_VIDEOS_LIST();
 		const currentVideoId = videosListData.data[0].id;
 		const videoDetailsObj = await GET_VIDEO_DETAILS(currentVideoId);
@@ -64,31 +49,31 @@ export default class HomePage extends Component {
 			currentVideoId: currentVideoId,
 			currentVideoDetails: videoDetailsObj.data,
 		});
-	}
+	};
 
 	//* GET DEFAULT VIDEO DETAILS============
 
-	async getDefaultVideoDetails(defaultVideoId) {
+	getDefaultVideoDetails = async (defaultVideoId) => {
 		const defaultVideoDetails = await GET_VIDEO_DETAILS(defaultVideoId);
 		console.log("❣ setting initial state");
 		this.setState({
 			currentVideoId: defaultVideoId,
 			currentVideoDetails: defaultVideoDetails.data,
 		});
-	}
+	};
 
 	//* GET SELECTED VIDEO DETAILS============
-	async getSelectedVideoDetails(videoId) {
-		const selectedVideoDetails = await GET_VIDEO_DETAILS(videoId);
+	getSelectedVideoDetails = async (selectedVideoId) => {
+		const selectedVideoDetails = await GET_VIDEO_DETAILS(selectedVideoId);
 		console.log("☢ setting selected video");
 		this.setState(
 			{
-				currentVideoId: videoId,
+				currentVideoId: selectedVideoId,
 				currentVideoDetails: selectedVideoDetails.data,
 			},
 			console.log(this.state)
 		);
-	}
+	};
 
 	componentDidMount() {
 		console.log("🎄🎄🎄🎄 app mounted");
@@ -154,12 +139,12 @@ export default class HomePage extends Component {
 										src={userAvatar}
 										className={"comments__avatar"}
 									/>
-									<CommentForm handleSubmit={this.handleSubmit} />
+									<CommentForm postComment={this.postComment} />
 								</div>
 								{currentVideoDetails && (
 									<CommentList
 										currentVideoDetails={currentVideoDetails}
-										handleDelete={this.handleDelete}
+										deleteComment={this.deleteComment}
 									/>
 								)}
 							</div>
