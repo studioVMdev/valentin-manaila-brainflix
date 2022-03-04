@@ -4,9 +4,10 @@
 	@include flex(center, center, column);
 }
 .header__container,
-.main, .upload {
+.main,
+.upload {
 	@include padding-site;
-  margin: 0 auto;
+	margin: 0 auto;
 }
 
 .main {
@@ -19,33 +20,51 @@
 	}
 
 	&__left {
-    
 		@include media-desktop {
 			max-width: 62rem;
-      border-right: $border-line;
+			border-right: $border-line;
 		}
 	}
 }
 
+// .input-field {
+// 	border: 1px solid $clr-primary-dark;
+// 	width: 100%;
+// 	padding: 1rem;
+// 	border-radius: 4px;
+// 	@include font-body-copy;
+// 	color: $clr-primary-dark;
+// 	min-height: 4rem;
+// 	&::placeholder {
+// 		color: $clr-primary-dark;
+// 	}
+// 	&:focus {
+// 		outline: none;
+// 		border: 2px solid $clr-primary-accent;
+// 	}
+// }
+
 .input-field {
-	border: 1px solid $clr-primary-dark;
+	box-sizing: border-box;
+	border: 1px solid $clr-primary-medium;
 	width: 100%;
 	padding: 1rem;
 	border-radius: 4px;
 	@include font-body-copy;
+	resize: none;
 	color: $clr-primary-dark;
-	min-height: 4rem;
+
 	&::placeholder {
+		@include font-body-copy;
 		color: $clr-primary-dark;
 	}
 	&:focus {
-		outline: none;
 		border: 2px solid $clr-primary-accent;
 	}
 }
 
-.input-field--error{
-  border: 2px solid $clr-error;
+.input-field--error {
+	border: 2px solid $clr-error;
 }
 
 .comments {

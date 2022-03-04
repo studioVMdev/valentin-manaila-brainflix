@@ -1,18 +1,28 @@
 @use "../../styles//partials/utils/index" as *;
 
 //This deals with router Link component wrapping children in an a tag.
-.header a{
-  width: 100%;  
+.header a {
+	width: 100%;
 	@include media-tablet {
 		max-width: 15rem;
 	}
+}
+
+.Toastify__toast-body > div:last-child {
+	font-size: 1.6rem;
+	@include font-body-copy;
+	color: $clr-primary-medium;
+}
+
+:root {
+	--toastify-icon-color-info: $clr-accent;
 }
 
 .header {
 	width: 100%;
 	padding-top: 1.6rem;
 	padding-bottom: 1.6rem;
-  border-bottom:  $border-line;
+	border-bottom: $border-line;
 	&__container {
 		width: 100%;
 		@include flex(center, center, column);

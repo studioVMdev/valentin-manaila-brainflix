@@ -3,7 +3,7 @@ import "./CommentList.scss";
 import Comment from "../Comment/Comment";
 
 
-const CommentList = ({ currentVideoDetails, deleteComment }) => {
+const CommentList = ({ currentVideoDetails, handleDelete }) => {
 	return (
 		<div className="comments__list">
 			{[...currentVideoDetails.comments]
@@ -13,7 +13,7 @@ const CommentList = ({ currentVideoDetails, deleteComment }) => {
 						<Comment
 							key={commentObj.id}
 							commentObj={commentObj}
-							handleDelete={deleteComment}
+							handleDelete={handleDelete}
 						/>
 					);
 				})}

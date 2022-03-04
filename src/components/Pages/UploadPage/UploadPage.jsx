@@ -6,6 +6,7 @@ import publishLogo from "../../../assets/icons/publish.svg";
 import uploadVideoImage from "../../../assets/images/Upload-video-preview.jpg";
 import "./UploadPage.scss";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 export default class UploadPage extends Component {
 	state = {
 		title: "",
@@ -14,9 +15,9 @@ export default class UploadPage extends Component {
 	};
 
 	notify = () =>
-		toast("🦄 Wow so easy!", {
+		toast.info("Video uploaded successfully. 🙌 Redirecting to Homepage", {
 			position: "bottom-center",
-			autoClose: 5000,
+			autoClose: 3000,
 			hideProgressBar: false,
 			closeOnClick: true,
 			pauseOnHover: true,
@@ -32,12 +33,11 @@ export default class UploadPage extends Component {
 		this.setState(
 			{
 				[e.target.name]: e.target.value,
-				[e.target.name]: e.target.value,
 			},
 			() => {
 				if (this.state.title && this.state.description) {
 					this.setState({
-						isFormValid: !this.state.isFormValid,
+						isFormValid: true,
 					});
 				} else {
 					this.setState({
@@ -48,8 +48,11 @@ export default class UploadPage extends Component {
 		);
 	};
 
+	componentDidUpdate() {
+		console.log("🤶🤶🤶 component updated");
+	}
+
 	isFormValid = (e) => {
-		this.notify();
 		e.preventDefault();
 		console.log("checking if valid");
 		const formEl = e.target;
@@ -68,21 +71,17 @@ export default class UploadPage extends Component {
 
 		if (isFormValid) {
 			console.log("form is valid, publishing");
-			// this.publishVideo(title, description);
-
+			console.log(this.props);
+			this.notify();
+			setTimeout(() => {
+				this.props.history.push("/");
+			}, 3000);
 			formEl.reset();
 		}
 	};
 
 	render() {
 		console.log("🎪 upload page rendered");
-
-		const button = <Button image={publishLogo} message="publish" />;
-		const linkButton = (
-			<Link to="/">
-				<Button image={publishLogo} message="publish" />
-			</Link>
-		);
 
 		return (
 			<main className="upload">
@@ -115,21 +114,21 @@ export default class UploadPage extends Component {
 								>
 									Add a video description
 								</label>
-								<input
+								<textarea
 									onChange={this.handleOnChange}
 									className="upload__input upload__input-description input-field "
 									type="text"
 									name="description"
 									placeholder="Add a description to your video"
-								/>
+								></textarea>
 							</div>
 						</div>
 						<div className="upload__buttons-wrapper">
-							{this.state.isFormValid ? linkButton : button}
+							<Button image={publishLogo} message="publish" />;
 							<button className="button upload__button ">CANCEL</button>
 							<ToastContainer
 								position="bottom-center"
-								autoClose={5000}
+								autoClose={3000}
 								hideProgressBar={false}
 								newestOnTop={false}
 								closeOnClick

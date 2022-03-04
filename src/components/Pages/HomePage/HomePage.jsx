@@ -20,10 +20,11 @@ export default class HomePage extends Component {
 		currentVideoDetails: null,
 		currentVideoId: null,
 	};
-	//* DELETE COMMENT and UPDATE UI =========
 
-	deleteComment = (e) => {
+	//* DELETE COMMENT and UPDATE UI =========
+	handleDelete = (e) => {
 		const currVideoId = this.state.currentVideoId;
+		console.log("deleting comment:", currVideoId);
 		const commentId = e.target.parentElement.parentElement.id;
 		DELETE_COMMENT(currVideoId, commentId).then((response) => {
 			response.status === 200 && this.getSelectedVideoDetails(currVideoId);
@@ -31,14 +32,13 @@ export default class HomePage extends Component {
 	};
 
 	//* POST COMMENT and UPDATE UI =========
-
 	postComment = async (comment) => {
 		const currVideoId = this.state.currentVideoId;
 		const response = await POST_COMMENT(currVideoId, comment);
 		response.status === 200 && this.getSelectedVideoDetails(currVideoId);
 	};
 
-	//* GET INITIAL STATE==================
+	//* GET INITIAL STATE and UPDATE UI=====
 	getInitialState = async () => {
 		const videosListData = await GET_VIDEOS_LIST();
 		const currentVideoId = videosListData.data[0].id;
@@ -51,8 +51,20 @@ export default class HomePage extends Component {
 		});
 	};
 
-	//* GET DEFAULT VIDEO DETAILS============
+	//* GET SAME VIDEO IF PAGE REFRESHES ===
+	getSameVideoDetails = async (paramVideoId) => {
+		const videosListData = await GET_VIDEOS_LIST();
+		const currentVideoId = paramVideoId;
+		const videoDetailsObj = await GET_VIDEO_DETAILS(paramVideoId);
 
+		this.setState({
+			videosListData: videosListData.data,
+			currentVideoId: currentVideoId,
+			currentVideoDetails: videoDetailsObj.data,
+		});
+	};
+
+	//* GET DEFAULT VIDEO DETAILS============
 	getDefaultVideoDetails = async (defaultVideoId) => {
 		const defaultVideoDetails = await GET_VIDEO_DETAILS(defaultVideoId);
 		console.log("❣ setting initial state");
@@ -76,8 +88,16 @@ export default class HomePage extends Component {
 	};
 
 	componentDidMount() {
-		console.log("🎄🎄🎄🎄 app mounted");
-		this.getInitialState();
+		console.log("🎄🎄🎄🎄 home page mounted");
+		const currParamVideoId = this.props.match.params.videoId;
+
+		if (!currParamVideoId) {
+			//This triggers first home page load
+			this.getInitialState();
+		} else if (currParamVideoId && !this.state.currentVideoId) {
+			//This deals with a refresh on same video page
+			this.getSameVideoDetails(currParamVideoId);
+		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -85,32 +105,31 @@ export default class HomePage extends Component {
 		// console.log("🥼 prevProps", prevProps);
 		// console.log("🥼 prevState", prevState);
 		const defaultVideoId = this.state.videosListData[0].id;
-		const currVideoId = this.props.match.params.videoId;
+		const currParamVideoId = this.props.match.params.videoId;
+		const currStateVideoId = this.state.currentVideoId;
 		const prevVideoId = this.props.match.params.videoId;
 
-		if (!currVideoId) {
-			console.log("💔 NO videoId", currVideoId);
+		if (!currParamVideoId) {
+			console.log("💔 param videoId", currParamVideoId);
 
-			if (prevState.currentVideoId === defaultVideoId) {
+			if (currStateVideoId === defaultVideoId) {
 				console.log("💙 stop after getting default");
 				return;
-			} else {
+			} else if (prevState.currentVideoId !== defaultVideoId) {
 				console.log("🧡 getting default video");
 				this.getDefaultVideoDetails(defaultVideoId);
 			}
 		}
 
-		if (currVideoId) {
+		if (currParamVideoId) {
 			console.log("setting current video");
-
-			if (this.state.currentVideoId === currVideoId) {
+			if (this.state.currentVideoId === currParamVideoId) {
 				return;
 			} else {
-				this.getSelectedVideoDetails(currVideoId);
+				this.getSelectedVideoDetails(currParamVideoId);
 			}
-
-			if (prevProps.match.params.videoId === currVideoId) {
-				console.log("already set");
+			if (prevProps.match.params.videoId === currParamVideoId) {
+				console.log("current video already set");
 				return;
 			} else {
 				return;
@@ -144,7 +163,7 @@ export default class HomePage extends Component {
 								{currentVideoDetails && (
 									<CommentList
 										currentVideoDetails={currentVideoDetails}
-										deleteComment={this.deleteComment}
+										handleDelete={this.handleDelete}
 									/>
 								)}
 							</div>
@@ -155,7 +174,6 @@ export default class HomePage extends Component {
 							videosListData={videosListData}
 							currentVideoId={this.state.currentVideoId}
 						/>
-						{/* )} */}
 					</aside>
 				</main>
 			</>
