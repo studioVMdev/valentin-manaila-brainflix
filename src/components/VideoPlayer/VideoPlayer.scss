@@ -29,7 +29,7 @@
 	margin: 0 1.6rem;
 	&__left-wrapper {
 		@include flex;
-    margin-left: 1.6rem;
+		margin-left: 1.6rem;
 	}
 
 	&__play-button {
@@ -52,7 +52,7 @@
 	&__right-wrapper {
 		@include flex;
 		gap: 1.6rem;
-    margin-right: 1.6rem;
+		margin-right: 1.6rem;
 	}
 
 	&__fullscreen-button {
@@ -89,7 +89,7 @@
 	@include flex(flex-start, center, row);
 	position: relative;
 
-	&__scrubbing-icon {
+	&__scrubbing {
 		z-index: 2;
 		width: 1.6rem;
 		height: 1.6rem;
@@ -127,4 +127,28 @@
 .time {
 	display: flex;
 	color: $clr-primary-light;
+}
+
+.player-button:hover {
+  cursor: pointer;
+	color: red;
+	fill: red;
+	transform: scale(1.1);
+	animation: pulse-black 1s infinite;
+}
+@keyframes pulse-black {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+	}
+
+	70% {
+		transform: scale(1.1);
+		box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+	}
+
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+	}
 }

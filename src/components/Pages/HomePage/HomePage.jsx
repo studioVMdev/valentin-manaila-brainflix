@@ -27,6 +27,7 @@ export default class HomePage extends Component {
 		console.log("deleting comment:", currVideoId);
 		const commentId = e.target.parentElement.parentElement.id;
 		DELETE_COMMENT(currVideoId, commentId).then((response) => {
+			console.log("🎨 Post deleted");
 			response.status === 200 && this.getSelectedVideoDetails(currVideoId);
 		});
 	};
@@ -35,6 +36,7 @@ export default class HomePage extends Component {
 	postComment = async (comment) => {
 		const currVideoId = this.state.currentVideoId;
 		const response = await POST_COMMENT(currVideoId, comment);
+		console.log("🧵 Posting comment...");
 		response.status === 200 && this.getSelectedVideoDetails(currVideoId);
 	};
 
@@ -43,7 +45,7 @@ export default class HomePage extends Component {
 		const videosListData = await GET_VIDEOS_LIST();
 		const currentVideoId = videosListData.data[0].id;
 		const videoDetailsObj = await GET_VIDEO_DETAILS(currentVideoId);
-		console.log("💚 setting initial state");
+		console.log("💚 getting default state");
 		this.setState({
 			videosListData: videosListData.data,
 			currentVideoId: currentVideoId,
@@ -78,13 +80,10 @@ export default class HomePage extends Component {
 	getSelectedVideoDetails = async (selectedVideoId) => {
 		const selectedVideoDetails = await GET_VIDEO_DETAILS(selectedVideoId);
 		console.log("☢ setting selected video");
-		this.setState(
-			{
-				currentVideoId: selectedVideoId,
-				currentVideoDetails: selectedVideoDetails.data,
-			},
-			console.log(this.state)
-		);
+		this.setState({
+			currentVideoId: selectedVideoId,
+			currentVideoDetails: selectedVideoDetails.data,
+		});
 	};
 
 	componentDidMount() {
@@ -113,7 +112,7 @@ export default class HomePage extends Component {
 			console.log("💔 param videoId", currParamVideoId);
 
 			if (currStateVideoId === defaultVideoId) {
-				console.log("💙 stop after getting default");
+				console.log("💙 setting default state");
 				return;
 			} else if (prevState.currentVideoId !== defaultVideoId) {
 				console.log("🧡 getting default video");
@@ -138,8 +137,9 @@ export default class HomePage extends Component {
 	}
 
 	render() {
-		const { videosListData, currentVideoDetails } = this.state;
-		console.log("🖼 state from Home render", this.state);
+    const { videosListData, currentVideoDetails } = this.state;
+    console.log("👔👔👔 rendering...")
+		// console.log("🖼 state from Home render", this.state);
 		return (
 			<>
 				{currentVideoDetails && (
