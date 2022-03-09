@@ -1,26 +1,22 @@
 import axios from "axios";
 
 const GET_VIDEOS_LIST = () => {
-	return axios.get(
-		`${process.env.REACT_APP_BASE_URL}/videos?api_key=${process.env.REACT_APP_API_KEY}`
-	);
+	return axios.get(`${process.env.REACT_APP_BASE_URL}/videos`);
 };
 
 const GET_VIDEO_DETAILS = (videoId) => {
-	return axios.get(
-		`${process.env.REACT_APP_BASE_URL}/videos/${videoId}?api_key=${process.env.REACT_APP_API_KEY}`
-	);
+	return axios.get(`${process.env.REACT_APP_BASE_URL}/videos/${videoId}`);
 };
 
 const DELETE_COMMENT = (videoId, commentId) => {
 	return axios.delete(
-		`${process.env.REACT_APP_BASE_URL}/videos/${videoId}/comments/${commentId}?api_key=${process.env.REACT_APP_API_KEY}`
+		`${process.env.REACT_APP_BASE_URL}/videos/${videoId}/comments/${commentId}`
 	);
 };
 
 const POST_COMMENT = (videoId, comment) => {
 	return axios.post(
-		`${process.env.REACT_APP_BASE_URL}/videos/${videoId}/comments?api_key=${process.env.REACT_APP_API_KEY}`,
+		`${process.env.REACT_APP_BASE_URL}/videos/${videoId}/comments`,
 		{
 			name: "Mohan Muruge",
 			comment: comment,
@@ -28,10 +24,25 @@ const POST_COMMENT = (videoId, comment) => {
 	);
 };
 
-export { GET_VIDEOS_LIST, GET_VIDEO_DETAILS, DELETE_COMMENT, POST_COMMENT };
+const POST_LIKE = (videoId, commentId) => {
+	return axios.patch(
+		`${process.env.REACT_APP_BASE_URL}/videos/${videoId}/comments/${commentId}`
+	);
+};
 
-// https://project-2-api.herokuapp.com/register
-// GET /videos
-// GET /videos/:id
-// POST /videos/:id/comments
-// DELETE /videos/:videoId/comments/:commentId
+const POST_VIDEO = ({ title, description, image }) => {
+	return axios.post(`${process.env.REACT_APP_BASE_URL}/upload`, {
+		title,
+		description,
+		image,
+	});
+};
+
+export {
+	GET_VIDEOS_LIST,
+	GET_VIDEO_DETAILS,
+	DELETE_COMMENT,
+	POST_COMMENT,
+	POST_VIDEO,
+	POST_LIKE,
+};

@@ -11,17 +11,21 @@
 }
 
 .main {
+  width: 100%;
 	@include flex(flex-start, center, column);
 	justify-content: flex-start;
 	align-items: flex-start;
 
 	@include media-desktop {
-		flex-direction: row;
+		@include flex;
+		justify-content: flex-start;
+		align-items: flex-start;
 	}
 
 	&__left {
+		width: 100%;
 		@include media-desktop {
-			max-width: 62rem;
+			max-width: 56rem;
 			border-right: $border-line;
 		}
 	}

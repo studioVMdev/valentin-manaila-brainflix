@@ -13,7 +13,7 @@
 	}
 	&__info-wrapper {
 		padding-bottom: 1.6rem;
-    width: 100%;
+		width: 100%;
 		@include flex(space-between, center, row);
 	}
 
@@ -26,10 +26,37 @@
 		@include font-body-copy;
 		color: $clr-primary-medium;
 	}
-	&__delete-btn {
+	&__buttons-wrapper {
+		padding-top: 1rem;
+		width: 100%;
+    @include flex(flex-start, flex-start,column);
+		@include media-tablet {
+			@include flex(flex-start, center, row);
+		}
+	}
+
+	&__delete-btn,
+	&__like-btn {
+		justify-self: flex-start;
+		text-align: start;
+		min-width: fit-content;
 		@include font-body-copy;
-    padding-top: 1rem;
-    color: $clr-error;
-		// align-self: flex-end;
+		color: $clr-primary-medium;
+	}
+
+	&__delete-btn {
+		text-align: end;
+	}
+
+	&__likes-count {
+		@include font-body-copy;
+		color: $clr-primary-medium;
+		padding-left: 2.1rem;
+		width: 100%;
+		justify-self: stretch;
+    order: -1;
+    @include media-tablet {
+      order: 0;
+    }
 	}
 }

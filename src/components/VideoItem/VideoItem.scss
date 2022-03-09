@@ -12,7 +12,7 @@ a{
 }
 
 .video-item {
-	@include flex;
+	@include flex(space-between, center, row);
 
 	&__thumbnail {
 		width: 10rem;
@@ -23,6 +23,7 @@ a{
 
 	&__info-wrapper {
 		padding-left: 1.6rem;
+    width: 100%;
     max-width: 18rem;
 	}
 	&__title {

@@ -12,6 +12,7 @@ import {
 	GET_VIDEO_DETAILS,
 	DELETE_COMMENT,
 	POST_COMMENT,
+	POST_LIKE,
 } from "../../../utils/apiCalls.mjs";
 
 export default class HomePage extends Component {
@@ -21,23 +22,33 @@ export default class HomePage extends Component {
 		currentVideoId: null,
 	};
 
+	//* POST - LIKE COMMENT AND UPDATE UI ===
+
+	handleLike = async (e) => {
+		console.log("👍 liked");
+		const videoId = this.state.currentVideoId;
+		const commentId = e.target.parentElement.parentElement.parentElement.id;
+		const response = await POST_LIKE(videoId, commentId);
+		response.status === 200 && this.getSameVideoDetails(videoId);
+	};
+
 	//* DELETE COMMENT and UPDATE UI =========
-	handleDelete = (e) => {
+	handleDelete = async (e) => {
 		const currVideoId = this.state.currentVideoId;
 		console.log("deleting comment:", currVideoId);
-		const commentId = e.target.parentElement.parentElement.id;
-		DELETE_COMMENT(currVideoId, commentId).then((response) => {
-			console.log("🎨 Post deleted");
-			response.status === 200 && this.getSelectedVideoDetails(currVideoId);
-		});
+		const commentId = e.target.parentElement.parentElement.parentElement.id;
+		const response = await DELETE_COMMENT(currVideoId, commentId);
+		console.log("🎨 Post deleted", response);
+		response.status === 200 && this.getSelectedVideoDetails(currVideoId);
 	};
 
 	//* POST COMMENT and UPDATE UI =========
 	postComment = async (comment) => {
 		const currVideoId = this.state.currentVideoId;
 		const response = await POST_COMMENT(currVideoId, comment);
+
 		console.log("🧵 Posting comment...");
-		response.status === 200 && this.getSelectedVideoDetails(currVideoId);
+		response.status === 201 && this.getSameVideoDetails(currVideoId);
 	};
 
 	//* GET INITIAL STATE and UPDATE UI=====
@@ -46,6 +57,7 @@ export default class HomePage extends Component {
 		const currentVideoId = videosListData.data[0].id;
 		const videoDetailsObj = await GET_VIDEO_DETAILS(currentVideoId);
 		console.log("💚 getting default state");
+
 		this.setState({
 			videosListData: videosListData.data,
 			currentVideoId: currentVideoId,
@@ -55,12 +67,13 @@ export default class HomePage extends Component {
 
 	//* GET SAME VIDEO IF PAGE REFRESHES ===
 	getSameVideoDetails = async (paramVideoId) => {
-		const videosListData = await GET_VIDEOS_LIST();
 		const currentVideoId = paramVideoId;
 		const videoDetailsObj = await GET_VIDEO_DETAILS(paramVideoId);
-
+		console.log(
+			"💌 getting same video comments ",
+			videoDetailsObj.data.comments
+		);
 		this.setState({
-			videosListData: videosListData.data,
 			currentVideoId: currentVideoId,
 			currentVideoDetails: videoDetailsObj.data,
 		});
@@ -78,29 +91,34 @@ export default class HomePage extends Component {
 
 	//* GET SELECTED VIDEO DETAILS============
 	getSelectedVideoDetails = async (selectedVideoId) => {
+		const videosListData = await GET_VIDEOS_LIST();
 		const selectedVideoDetails = await GET_VIDEO_DETAILS(selectedVideoId);
-		console.log("☢ setting selected video");
-		this.setState({
-			currentVideoId: selectedVideoId,
-			currentVideoDetails: selectedVideoDetails.data,
-		});
+		this.setState(
+			{
+				videosListData: videosListData.data,
+				currentVideoId: selectedVideoId,
+				currentVideoDetails: selectedVideoDetails.data,
+			},
+			() => {
+				console.log("☢ setting selected video");
+			}
+		);
 	};
 
 	componentDidMount() {
-		console.log("🎄🎄🎄🎄 home page mounted");
+		console.log("🎄🎄🎄🎄 component mounted...");
 		const currParamVideoId = this.props.match.params.videoId;
-
 		if (!currParamVideoId) {
 			//This triggers first home page load
 			this.getInitialState();
 		} else if (currParamVideoId && !this.state.currentVideoId) {
 			//This deals with a refresh on same video page
-			this.getSameVideoDetails(currParamVideoId);
+			this.getSelectedVideoDetails(currParamVideoId);
 		}
 	}
 
 	componentDidUpdate(prevProps, prevState) {
-		console.log("🦺🦺🦺🦺 app updated");
+		console.log("🦺🦺🦺 updating component...");
 		// console.log("🥼 prevProps", prevProps);
 		// console.log("🥼 prevState", prevState);
 		const defaultVideoId = this.state.videosListData[0].id;
@@ -112,7 +130,7 @@ export default class HomePage extends Component {
 			console.log("💔 param videoId", currParamVideoId);
 
 			if (currStateVideoId === defaultVideoId) {
-				console.log("💙 setting default state");
+				console.log("💙 updating complete...");
 				return;
 			} else if (prevState.currentVideoId !== defaultVideoId) {
 				console.log("🧡 getting default video");
@@ -121,7 +139,6 @@ export default class HomePage extends Component {
 		}
 
 		if (currParamVideoId) {
-			console.log("setting current video");
 			if (this.state.currentVideoId === currParamVideoId) {
 				return;
 			} else {
@@ -137,9 +154,8 @@ export default class HomePage extends Component {
 	}
 
 	render() {
-    const { videosListData, currentVideoDetails } = this.state;
-    console.log("👔👔👔 rendering...")
-		// console.log("🖼 state from Home render", this.state);
+		const { videosListData, currentVideoDetails } = this.state;
+		console.log("👔👔👔 rendering started...");
 		return (
 			<>
 				{currentVideoDetails && (
@@ -152,7 +168,6 @@ export default class HomePage extends Component {
 						)}
 						<section className="comments">
 							<div className="comments__container">
-								{/* <img src="" alt="user-icon" /> */}
 								<div className="comments__form-wrapper">
 									<Avatar
 										src={userAvatar}
@@ -164,6 +179,7 @@ export default class HomePage extends Component {
 									<CommentList
 										currentVideoDetails={currentVideoDetails}
 										handleDelete={this.handleDelete}
+										handleLike={this.handleLike}
 									/>
 								)}
 							</div>

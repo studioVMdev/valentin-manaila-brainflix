@@ -2,8 +2,7 @@ import React from "react";
 import "./CommentList.scss";
 import Comment from "../Comment/Comment";
 
-
-const CommentList = ({ currentVideoDetails, handleDelete }) => {
+const CommentList = ({ currentVideoDetails, handleDelete, handleLike }) => {
 	return (
 		<div className="comments__list">
 			{[...currentVideoDetails.comments]
@@ -14,6 +13,7 @@ const CommentList = ({ currentVideoDetails, handleDelete }) => {
 							key={commentObj.id}
 							commentObj={commentObj}
 							handleDelete={handleDelete}
+							handleLike={handleLike}
 						/>
 					);
 				})}

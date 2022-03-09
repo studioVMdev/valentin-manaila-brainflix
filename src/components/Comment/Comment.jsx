@@ -26,8 +26,8 @@ const CommentLoader = (props) => (
 	</ContentLoader>
 );
 
-const Comment = ({ commentObj, handleDelete }) => {
-	const { name, comment, id, timestamp } = commentObj;
+const Comment = ({ commentObj, handleDelete, handleLike }) => {
+	const { name, comment, id, timestamp, likes } = commentObj;
 	if (!commentObj) {
 		return <CommentLoader />;
 	} else {
@@ -40,10 +40,19 @@ const Comment = ({ commentObj, handleDelete }) => {
 						<p className="comment__date">{timeSince(timestamp)}</p>
 					</div>
 					<p className="comment__body">{comment}</p>
-					<button className="comment__delete-btn" onClick={handleDelete}>
-						{" "}
-						❌ Delete Comment
-					</button>
+					<div className="comment__buttons-wrapper">
+						<button className="comment__like-btn" onClick={handleLike}>
+							💖 Like Comment
+						</button>
+						<p className="comment__likes-count">Likes: {likes}</p>
+						<button
+							className="comment__delete-btn"
+							onClick={handleDelete}
+						>
+							{" "}
+							❌ Delete Comment
+						</button>
+					</div>
 				</div>
 			</div>
 		);
