@@ -1,11 +1,11 @@
 @use "../../styles//partials/utils/index" as *;
 
 .info {
-  &__container{
-    @include media-desktop{
-      padding-right: 2.4rem;
-    }
-  }
+	&__container {
+		@include media-desktop {
+			padding-right: 2.4rem;
+		}
+	}
 
 	&__title {
 		@include font-page-header;
@@ -22,7 +22,7 @@
 		padding: 1.6rem 0;
 		border-top: $border-line;
 		@include media-tablet {
-      padding-top: 0;
+			padding-top: 0;
 			border-top: none;
 		}
 	}
@@ -64,9 +64,16 @@
 		@include font-body-copy;
 		@include padding-v-component;
 	}
+  &__bottom{
+		padding-bottom: 1.6rem;
+    @include flex(space-between, center, row)
+  }
 	&__comments-count {
 		@include font-sub-header;
-		padding-bottom: 1.6rem;
 		color: $clr-primary-dark;
+	}
+	&__like-btn {
+		@include font-body-copy;
+		color: $clr-primary-medium;
 	}
 }

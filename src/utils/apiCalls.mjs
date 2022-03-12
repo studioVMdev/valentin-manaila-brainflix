@@ -38,6 +38,10 @@ const POST_VIDEO = ({ title, description, image }) => {
 	});
 };
 
+const PATCH_VIDEO_LIKE = (videoId) => {
+	return axios.patch(`${process.env.REACT_APP_BASE_URL}/videos/${videoId}`);
+};
+
 export {
 	GET_VIDEOS_LIST,
 	GET_VIDEO_DETAILS,
@@ -45,4 +49,5 @@ export {
 	POST_COMMENT,
 	POST_VIDEO,
 	POST_LIKE,
+	PATCH_VIDEO_LIKE,
 };

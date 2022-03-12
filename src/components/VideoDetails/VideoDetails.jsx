@@ -4,7 +4,7 @@ import viewsIcon from "../../assets/icons/views.svg";
 import likesIcon from "../../assets/icons/likes.svg";
 import { timestampToDate } from "../../utils/timestamp.mjs";
 
-const VideoDetails = ({ videosDetailsList }) => {
+const VideoDetails = ({ videosDetailsList, handleVideoLike }) => {
 	const { title, channel, timestamp, views, likes, description } =
 		videosDetailsList;
 
@@ -24,7 +24,9 @@ const VideoDetails = ({ videosDetailsList }) => {
 								alt="views-icon"
 								className="views__icon info__icon"
 							/>
-							<p className="views__count info__count">{views}</p>
+							<p className="views__count info__count">
+								{views.toLocaleString("en")}
+							</p>
 						</div>
 						<div className="likes__wrapper info__wrapper">
 							<img
@@ -32,14 +34,21 @@ const VideoDetails = ({ videosDetailsList }) => {
 								alt="likes-icon"
 								className="likes__icon info__icon"
 							/>
-							<p className="likes__count info__count">{likes}</p>
+							<p className="likes__count info__count">
+								{likes.toLocaleString("en")}
+							</p>
 						</div>
 					</div>
 				</div>
 				<div className="info__description">{description}</div>
-				<p className="info__comments-count">
-					{videosDetailsList.comments.length} Comments
-				</p>
+				<div className="info__bottom">
+					<p className="info__comments-count">
+						{videosDetailsList.comments.length} Comments
+					</p>
+					<button className="info__like-btn" onClick={handleVideoLike}>
+						💖 Like Comment
+					</button>
+				</div>
 			</div>
 		</section>
 	);

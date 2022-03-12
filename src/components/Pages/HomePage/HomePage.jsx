@@ -13,6 +13,7 @@ import {
 	DELETE_COMMENT,
 	POST_COMMENT,
 	POST_LIKE,
+	PATCH_VIDEO_LIKE,
 } from "../../../utils/apiCalls.mjs";
 
 export default class HomePage extends Component {
@@ -21,9 +22,16 @@ export default class HomePage extends Component {
 		currentVideoDetails: null,
 		currentVideoId: null,
 	};
+	//* LIKE VIDEO  UI ===
+
+	handleVideoLike = async () => {
+		console.log("liking");
+		const currentVideoId = this.state.currentVideoId;
+		const response = await PATCH_VIDEO_LIKE(currentVideoId);
+		response.status === 200 && this.getSameVideoDetails(currentVideoId);
+	};
 
 	//* POST - LIKE COMMENT AND UPDATE UI ===
-
 	handleLike = async (e) => {
 		console.log("👍 liked");
 		const videoId = this.state.currentVideoId;
@@ -164,7 +172,10 @@ export default class HomePage extends Component {
 				<main className="main">
 					<div className="main__left">
 						{currentVideoDetails && (
-							<VideoDetails videosDetailsList={currentVideoDetails} />
+							<VideoDetails
+								handleVideoLike={this.handleVideoLike}
+								videosDetailsList={currentVideoDetails}
+							/>
 						)}
 						<section className="comments">
 							<div className="comments__container">
