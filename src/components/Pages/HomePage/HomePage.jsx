@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 
 import VideoPlayer from "../../VideoPlayer/VideoPlayer";
 import VideosList from "../../VideosList/VideosList";
@@ -16,194 +16,137 @@ import {
 	PATCH_VIDEO_LIKE,
 } from "../../../utils/apiCalls.mjs";
 
-export default class HomePage extends Component {
-	state = {
-		videosListData: null,
-		currentVideoDetails: null,
-		currentVideoId: null,
-	};
-	//* LIKE VIDEO  UI ===
+const HomePage = (props) => {
+	const [videosListData, setVideosListData] = useState(null);
+	const [currentVideoDetails, setCurrentVideoDetails] = useState(null);
+	const [currentVideoId, setCurrentVideoId] = useState(null);
 
-	handleVideoLike = async () => {
+	// * LIKE VIDEO  UI ===
+	const handleVideoLike = async () => {
 		console.log("liking");
-		const currentVideoId = this.state.currentVideoId;
 		const response = await PATCH_VIDEO_LIKE(currentVideoId);
-		response.status === 200 && this.getSameVideoDetails(currentVideoId);
+		response.status === 200 && getSameVideoDetails(currentVideoId);
 	};
 
 	//* POST - LIKE COMMENT AND UPDATE UI ===
-	handleLike = async (e) => {
-		console.log("👍 liked");
-		const videoId = this.state.currentVideoId;
+	const handleLike = async (e) => {
 		const commentId = e.target.parentElement.parentElement.parentElement.id;
-		const response = await POST_LIKE(videoId, commentId);
-		response.status === 200 && this.getSameVideoDetails(videoId);
+		console.log("👍 liked: ", commentId);
+		console.log("currentVideoId: ", currentVideoId);
+		const response = await POST_LIKE(currentVideoId, commentId);
+		console.log(response);
+		response.status === 200 && getSameVideoDetails(currentVideoId);
 	};
 
 	//* DELETE COMMENT and UPDATE UI =========
-	handleDelete = async (e) => {
-		const currVideoId = this.state.currentVideoId;
-		console.log("deleting comment:", currVideoId);
+	const handleDelete = async (e) => {
+		console.log("deleting comment:", currentVideoId);
 		const commentId = e.target.parentElement.parentElement.parentElement.id;
-		const response = await DELETE_COMMENT(currVideoId, commentId);
+		const response = await DELETE_COMMENT(currentVideoId, commentId);
 		console.log("🎨 Post deleted", response);
-		response.status === 200 && this.getSelectedVideoDetails(currVideoId);
+		response.status === 200 && getSelectedVideoDetails(currentVideoId);
 	};
 
 	//* POST COMMENT and UPDATE UI =========
-	postComment = async (comment) => {
-		const currVideoId = this.state.currentVideoId;
-		const response = await POST_COMMENT(currVideoId, comment);
-
+	const postComment = async (comment) => {
+		const response = await POST_COMMENT(currentVideoId, comment);
 		console.log("🧵 Posting comment...");
-		response.status === 201 && this.getSameVideoDetails(currVideoId);
+		response.status === 201 && getSameVideoDetails(currentVideoId);
 	};
 
 	//* GET INITIAL STATE and UPDATE UI=====
-	getInitialState = async () => {
-		const videosListData = await GET_VIDEOS_LIST();
-		const currentVideoId = videosListData.data[0].id;
-		const videoDetailsObj = await GET_VIDEO_DETAILS(currentVideoId);
+	const getInitialState = async () => {
+		const getVideosListData = await GET_VIDEOS_LIST();
+		const getCurrentVideoId = getVideosListData.data[0].id;
+		const getVideoDetailsObj = await GET_VIDEO_DETAILS(getCurrentVideoId);
 		console.log("💚 getting default state");
-
-		this.setState({
-			videosListData: videosListData.data,
-			currentVideoId: currentVideoId,
-			currentVideoDetails: videoDetailsObj.data,
-		});
+		setVideosListData(getVideosListData.data);
+		setCurrentVideoDetails(getVideoDetailsObj.data);
+		setCurrentVideoId(getCurrentVideoId);
 	};
 
 	//* GET SAME VIDEO IF PAGE REFRESHES ===
-	getSameVideoDetails = async (paramVideoId) => {
-		const currentVideoId = paramVideoId;
-		const videoDetailsObj = await GET_VIDEO_DETAILS(paramVideoId);
-		console.log(
-			"💌 getting same video comments ",
-			videoDetailsObj.data.comments
-		);
-		this.setState({
-			currentVideoId: currentVideoId,
-			currentVideoDetails: videoDetailsObj.data,
-		});
-	};
-
-	//* GET DEFAULT VIDEO DETAILS============
-	getDefaultVideoDetails = async (defaultVideoId) => {
-		const defaultVideoDetails = await GET_VIDEO_DETAILS(defaultVideoId);
-		console.log("❣ setting initial state");
-		this.setState({
-			currentVideoId: defaultVideoId,
-			currentVideoDetails: defaultVideoDetails.data,
-		});
+	const getSameVideoDetails = async (currentVideoId) => {
+		const getVideoDetailsObj = await GET_VIDEO_DETAILS(currentVideoId);
+		setCurrentVideoDetails(getVideoDetailsObj.data);
 	};
 
 	//* GET SELECTED VIDEO DETAILS============
-	getSelectedVideoDetails = async (selectedVideoId) => {
-		const videosListData = await GET_VIDEOS_LIST();
-		const selectedVideoDetails = await GET_VIDEO_DETAILS(selectedVideoId);
-		this.setState(
-			{
-				videosListData: videosListData.data,
-				currentVideoId: selectedVideoId,
-				currentVideoDetails: selectedVideoDetails.data,
-			},
-			() => {
-				console.log("☢ setting selected video");
-			}
-		);
+	const getSelectedVideoDetails = async (selectedVideoId) => {
+		const getVideosListData = await GET_VIDEOS_LIST();
+
+		const getSelectedVideoDetails = await GET_VIDEO_DETAILS(selectedVideoId);
+
+		setCurrentVideoId(selectedVideoId);
+		setVideosListData(getVideosListData.data);
+		setCurrentVideoDetails(getSelectedVideoDetails.data);
+		console.log("☢ setting selected video");
 	};
 
-	componentDidMount() {
-		console.log("🎄🎄🎄🎄 component mounted...");
-		const currParamVideoId = this.props.match.params.videoId;
-		if (!currParamVideoId) {
-			//This triggers first home page load
-			this.getInitialState();
-		} else if (currParamVideoId && !this.state.currentVideoId) {
-			//This deals with a refresh on same video page
-			this.getSelectedVideoDetails(currParamVideoId);
-		}
-	}
-
-	componentDidUpdate(prevProps, prevState) {
+	useEffect(() => {
 		console.log("🦺🦺🦺 updating component...");
-		// console.log("🥼 prevProps", prevProps);
-		// console.log("🥼 prevState", prevState);
-		const defaultVideoId = this.state.videosListData[0].id;
-		const currParamVideoId = this.props.match.params.videoId;
-		const currStateVideoId = this.state.currentVideoId;
-		const prevVideoId = this.props.match.params.videoId;
+		const currParamVideoId = props.match.params.videoId;
+		console.log("param changed: ", currParamVideoId);
 
 		if (!currParamVideoId) {
 			console.log("💔 param videoId", currParamVideoId);
-
-			if (currStateVideoId === defaultVideoId) {
+			if (currParamVideoId === currentVideoId) {
 				console.log("💙 updating complete...");
 				return;
-			} else if (prevState.currentVideoId !== defaultVideoId) {
+			} else if (currParamVideoId !== currentVideoId) {
 				console.log("🧡 getting default video");
-				this.getDefaultVideoDetails(defaultVideoId);
+				getInitialState();
 			}
 		}
 
 		if (currParamVideoId) {
-			if (this.state.currentVideoId === currParamVideoId) {
+			if (currentVideoId === currParamVideoId) {
 				return;
 			} else {
-				this.getSelectedVideoDetails(currParamVideoId);
-			}
-			if (prevProps.match.params.videoId === currParamVideoId) {
-				console.log("current video already set");
-				return;
-			} else {
-				return;
+				getSelectedVideoDetails(currParamVideoId);
 			}
 		}
-	}
+	}, [props.match.params.videoId]);
 
-	render() {
-		const { videosListData, currentVideoDetails } = this.state;
-		console.log("👔👔👔 rendering started...");
-		return (
-			<>
-				{currentVideoDetails && (
-					<VideoPlayer videoObj={currentVideoDetails} />
-				)}
-				<main className="main">
-					<div className="main__left">
-						{currentVideoDetails && (
-							<VideoDetails
-								handleVideoLike={this.handleVideoLike}
-								videosDetailsList={currentVideoDetails}
-							/>
-						)}
-						<section className="comments">
-							<div className="comments__container">
-								<div className="comments__form-wrapper">
-									<Avatar
-										src={userAvatar}
-										className={"comments__avatar"}
-									/>
-									<CommentForm postComment={this.postComment} />
-								</div>
-								{currentVideoDetails && (
-									<CommentList
-										currentVideoDetails={currentVideoDetails}
-										handleDelete={this.handleDelete}
-										handleLike={this.handleLike}
-									/>
-								)}
-							</div>
-						</section>
-					</div>
-					<aside className="videos-list">
-						<VideosList
-							videosListData={videosListData}
-							currentVideoId={this.state.currentVideoId}
+	return (
+		<>
+			{currentVideoDetails && <VideoPlayer videoObj={currentVideoDetails} />}
+			<main className="main">
+				<div className="main__left">
+					{currentVideoDetails && (
+						<VideoDetails
+							handleVideoLike={handleVideoLike}
+							videosDetailsList={currentVideoDetails}
 						/>
-					</aside>
-				</main>
-			</>
-		);
-	}
-}
+					)}
+					<section className="comments">
+						<div className="comments__container">
+							<div className="comments__form-wrapper">
+								<Avatar
+									src={userAvatar}
+									className={"comments__avatar"}
+								/>
+								<CommentForm postComment={postComment} />
+							</div>
+							{currentVideoDetails && (
+								<CommentList
+									currentVideoDetails={currentVideoDetails}
+									handleDelete={handleDelete}
+									handleLike={handleLike}
+								/>
+							)}
+						</div>
+					</section>
+				</div>
+				<aside className="videos-list">
+					<VideosList
+						videosListData={videosListData}
+						currentVideoId={currentVideoId}
+					/>
+				</aside>
+			</main>
+		</>
+	);
+};
+
+export default HomePage;
