@@ -83,8 +83,12 @@ const HomePage = (props) => {
 		console.log("☢ setting selected video");
 	};
 
-	useEffect(() => {
-		console.log("🦺🦺🦺 updating component...");
+  useEffect(() => {
+		console.log("🔰🔰🔰 component did mount...");
+  }, []);
+
+  useEffect(() => {
+		console.log("🦺🦺🦺 component did update...");
 		const currParamVideoId = props.match.params.videoId;
 		console.log("param changed: ", currParamVideoId);
 
@@ -98,7 +102,6 @@ const HomePage = (props) => {
 				getInitialState();
 			}
 		}
-
 		if (currParamVideoId) {
 			if (currentVideoId === currParamVideoId) {
 				return;
@@ -106,7 +109,7 @@ const HomePage = (props) => {
 				getSelectedVideoDetails(currParamVideoId);
 			}
 		}
-	}, [props.match.params.videoId]);
+  }, [props.match.params.videoId]);
 
 	return (
 		<>
