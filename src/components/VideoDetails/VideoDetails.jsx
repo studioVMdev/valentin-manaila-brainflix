@@ -46,7 +46,7 @@ const VideoDetails = ({ videosDetailsList, handleVideoLike }) => {
 						{videosDetailsList.comments.length} Comments
 					</p>
 					<button className="info__like-btn" onClick={handleVideoLike}>
-						💖 Like Comment
+						💖 Like Video
 					</button>
 				</div>
 			</div>
